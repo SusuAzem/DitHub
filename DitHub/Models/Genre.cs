@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DitHub.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DitHub
 {
@@ -9,5 +11,7 @@ namespace DitHub
         [Required]
         [StringLength(255)]
         public string Name { get; set; } = string.Empty;
+
+        public virtual ICollection<Dit>? Dits { get; set; }
     }
 }
