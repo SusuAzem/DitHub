@@ -8,5 +8,6 @@ namespace DitHub.ViewModels
         public IEnumerable<Genre> Genres { get; set; } = null!;
         public string Date { get; set; } = "";
         public string Time { get; set; } = "";
+        public byte Genre { get; set; }
     }
 }
