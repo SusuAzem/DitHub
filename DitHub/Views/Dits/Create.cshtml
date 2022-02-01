@@ -7,9 +7,9 @@
 
 <form asp-action="Create" asp-controller="Dits" method="post">
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="venue" placeholder="genre" asp-for="Venue">
+        <input type="text" class="form-control" id="venue" placeholder="venue" asp-for="Venue">
         <label for="venue" class="form-label">Venue:</label>
-        <span class="form-text">please write the venue here.</span>
+        <span asp-validation-for="Venue" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-3">
@@ -21,17 +21,24 @@
                 <option value="@item.Id">@item.Name</option>
             }
         </select>
+        <span asp-validation-for="Genre" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-3">
         <label class="form-label" for="date">Date:</label>
         <input type="text" class="form-control" id="date" asp-for="Date">
+        <span asp-validation-for="Date" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-3">
         <label class="form-label" for="time">Time:</label>
         <input type="text" class="form-control" id="time" asp-for="Time">
+        <span asp-validation-for="Time" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+@section Scripts {
+    <script src="~/lib/bundle.js"></script>
+}

@@ -4,7 +4,6 @@ using DitHub.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 
 namespace DitHub.Controllers
@@ -33,14 +32,19 @@ namespace DitHub.Controllers
         [HttpPost]
         public IActionResult Create(CreateViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Genres = dbContext.Genres.ToList();
+                return View("Create", viewModel);
+            }
             var dit = new Dit()
             {
                 ArtistId = userManager.GetUserId(User),
-                Date = DateTime.ParseExact($"{viewModel.Date} {viewModel.Time}", "dd MMM yyyy HH:mm", null),
+                Date = viewModel.GetDateTime(),
                 GenreId = viewModel.Genre,
                 Venue = viewModel.Venue
             };
-
+            
             dbContext.Add(dit);
             dbContext.SaveChanges();
             return RedirectToAction("Index", "Home");
