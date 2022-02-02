@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace DitHub.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class DitsController : Controller
     {
         private readonly ApplicationDbContext dbContext;
@@ -44,7 +45,7 @@ namespace DitHub.Controllers
                 GenreId = viewModel.Genre,
                 Venue = viewModel.Venue
             };
-            
+
             dbContext.Add(dit);
             dbContext.SaveChanges();
             return RedirectToAction("Index", "Home");

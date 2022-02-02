@@ -5,7 +5,8 @@
 }
 <h1>Create</h1>
 
-<form asp-action="Create" asp-controller="Dits" method="post">
+<form method="post" asp-action="Create" asp-controller="Dits">
+
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="venue" placeholder="venue" asp-for="Venue">
         <label for="venue" class="form-label">Venue:</label>
