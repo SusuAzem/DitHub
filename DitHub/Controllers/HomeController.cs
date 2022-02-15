@@ -1,5 +1,7 @@
-﻿using DitHub.Models;
+﻿using DitHub.Data;
+using DitHub.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,15 +14,21 @@ namespace DitHub.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
         {
             _logger = logger;
+            this.dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var UpcomingDits = dbContext.Dits.
+                Include(d => d.Artist).
+                Where(d=>d.Date>DateTime.Now);
+            return View(UpcomingDits);
         }
 
         public IActionResult Privacy()
