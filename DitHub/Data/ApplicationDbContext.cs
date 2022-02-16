@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DitHub.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public DbSet<Dit> Dits => Set<Dit>();
         public DbSet<Genre> Genres => Set<Genre>();
@@ -13,5 +13,9 @@ namespace DitHub.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

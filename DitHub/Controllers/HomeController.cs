@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DitHub.Controllers
 {
@@ -25,9 +23,9 @@ namespace DitHub.Controllers
 
         public IActionResult Index()
         {
-            var UpcomingDits = dbContext.Dits.
-                Include(d => d.Artist).
-                Where(d=>d.Date>DateTime.Now);
+            var UpcomingDits = dbContext.Dits
+                .Include(d => d.AppUser)
+                .Where(d => d.Date > DateTime.Now);
             return View(UpcomingDits);
         }
 

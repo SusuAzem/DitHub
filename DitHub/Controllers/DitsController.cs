@@ -12,9 +12,9 @@ namespace DitHub.Controllers
     public class DitsController : Controller
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<AppUser> userManager;
 
-        public DitsController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        public DitsController(ApplicationDbContext dbContext, UserManager<AppUser> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
@@ -40,7 +40,7 @@ namespace DitHub.Controllers
             }
             var dit = new Dit()
             {
-                ArtistId = userManager.GetUserId(User),
+                AppUserId = userManager.GetUserId(User),
                 Date = viewModel.GetDateTime(),
                 GenreId = viewModel.Genre,
                 Venue = viewModel.Venue
