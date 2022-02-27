@@ -174,7 +174,7 @@ body {
             }
 
 
-        .dits > li > button, .btn-primary {
+        .dits > li > button, form> .btn-primary {
             position: absolute;
             right: 10px;
             top: 18px;

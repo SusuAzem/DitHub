@@ -1,4 +1,5 @@
 ﻿using DitHub.Data;
+using DitHub.DTO;
 using DitHub.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -57,10 +58,5 @@ namespace DitHub.Controllers
 
             }));
         }
-    }
-
-    public class FDTO
-    {
-        public int Ditid { get; set; }
     }
 }

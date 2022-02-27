@@ -14,6 +14,9 @@ namespace DitHub.Models
         public string? Photo { get; set; }
         public virtual ICollection<Dit>? Dits { get; set; }
         public virtual ICollection<FaveDit>? FaveDits { get; set; }
+        public virtual ICollection<Following>? Followers { get; set; }
+        public virtual ICollection<Following>? Followees { get; set; }
+
 
 
         public AppUser()

@@ -9,6 +9,8 @@ namespace DitHub.Data
         public DbSet<Dit> Dits => Set<Dit>();
         public DbSet<Genre> Genres => Set<Genre>();
         public DbSet<FaveDit> FaveDits => Set<FaveDit>();
+        public DbSet<Following> Followings => Set<Following>();
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -31,6 +33,21 @@ namespace DitHub.Data
                         .WithMany(a => a.FaveDits)
                         .HasForeignKey(f => f.AppUserId)
                         .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Following>()
+                        .HasKey(f => new { f.FollowerId, f.FolloweeId });
+
+            modelBuilder.Entity<Following>()
+                        .HasOne(f => f.Follower)
+                        .WithMany(d => d.Followees)
+                        .HasForeignKey(f => f.FollowerId)
+                        .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Following>()
+                        .HasOne(f => f.Followee)
+                        .WithMany(a => a.Followers)
+                        .HasForeignKey(f => f.FolloweeId)
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
             base.OnModelCreating(modelBuilder);
         }
