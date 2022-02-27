@@ -1,7 +1,7 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand{
+a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
@@ -11,25 +11,14 @@ a.navbar-brand{
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
-.btn-primary {
-    color: black;
-    background-color: #fff;
-    border-color: black;
-    box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
-}
-
-    .btn-primary:focus, .btn-primary:hover {
-        background-color: #a44040b5;
-        border-color: black;
-    }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-link:focus, .nav-link:hover {
@@ -39,35 +28,37 @@ a {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -77,6 +68,7 @@ body {
     font-family: Quintessential,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1rem;
 }
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -98,6 +90,7 @@ body {
 .btn-link {
     font-size: 1rem;
 }
+
 .form-control {
     width: 30%;
     height: calc(2rem + .75rem + 2px);
@@ -126,3 +119,71 @@ body {
 .form-select {
     font-size: 0.9rem;
 }
+
+/*index page dits*/
+
+.dits {
+    list-style: none;
+    color: black;
+}
+
+    .dits > li {
+        position: relative;
+        margin-bottom: 5%;
+        max-width: 75%;
+    }
+
+        .dits > li .details {
+            /*position: absolute;
+            top: 10px;
+            left: 70px;*/
+            padding: 10px;
+        }
+
+            .dits > li .details .artist {
+                font-weight: bold;
+                display: block;
+            }
+
+            .dits > li .details .genre {
+                font-size: 14px;
+                display: block;
+            }
+
+        .dits > li .date {
+            text-align: center;
+            width: 60px;
+            -webkit-border-radius: 8px;
+            overflow: hidden;
+        }
+
+            .dits > li .date .month {
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 2px 6px;
+                background: #f93636;
+                color: #fff;
+            }
+
+            .dits > li .date .day {
+                font-size: 20px;
+                padding: 6px 12px;
+                background: #fff;
+                color: black;
+            }
+
+
+        .dits > li > button, .btn-primary {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+            color: black;
+            background-color: #fff;
+            border-color: black;
+            box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
+        }
+            .btn-primary:focus, .btn-primary:hover, .dits > li > button:hover, .dits > li > button:focus {
+                background-color: darksalmon;
+                border-color: black;
+            }

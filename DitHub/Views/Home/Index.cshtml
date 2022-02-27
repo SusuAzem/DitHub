@@ -2,10 +2,54 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<ul>
+<p></p>
+<ul class="dits">
     @foreach (var item in Model)
     {
-        <li>@item.Date -  @item.AppUser.Name</li>
+        <li class="d-flex justify-content-between">
+            <div class="date">
+                <div class="month">@item.Date.ToString("MMM")</div>
+                <div class="day">@item.Date.ToString("dd")</div>
+            </div>
+            <div class="details flex-fill">
+                <span class="artist">@item.AppUser.Name</span>
+                <span class="genre">@item.Genre.Name</span>
+            </div>
+            <button data-ditid="@item.Id" class="btn btn-sm flex-fill">Add To Fave?</button>
+        </li>
     }
 </ul>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".btn-sm").click(function (e) {
+                var butten = $(e.target);
+                var v = { Ditid: parseInt(butten.attr('data-ditid')) }
+                $.post({
+                    url: '/api/favedit',
+                    data: JSON.stringify(v),
+                    contentType: 'application/json'
+                })
+                    //$.ajax('/api/favedit', {
+                    //    type: 'post',
+                    //    data: JSON.stringify(v),
+                    //    dataType: 'json',
+                    //    contentType: 'application/json',
+                    //})
+                    .done(function () {
+                        butten
+                            .css("box-shadow", "0.5rem 0.5rem #ccc, -0.5rem - 0.5rem #f93636")
+                            .text('Added')
+                        alert('Request done!');
+                    })
+                    .fail(function (jqxhr, settings, ex) {
+                        alert('failed, ' + ex + jqxhr.responseText);
+                    })
+                //.setRequestHeader('Accept', 'application/json')
+                //.setRequestHeader('Access-Control-Allow-Origin', '*')
+
+            })
+        })
+    </script>
+}

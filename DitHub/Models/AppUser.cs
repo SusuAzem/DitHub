@@ -13,6 +13,8 @@ namespace DitHub.Models
         public string Name { get; set; } = null!;
         public string? Photo { get; set; }
         public virtual ICollection<Dit>? Dits { get; set; }
+        public virtual ICollection<FaveDit>? FaveDits { get; set; }
+
 
         public AppUser()
         {

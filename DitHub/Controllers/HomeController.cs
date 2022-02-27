@@ -25,7 +25,8 @@ namespace DitHub.Controllers
         {
             var UpcomingDits = dbContext.Dits
                 .Include(d => d.AppUser)
-                .Where(d => d.Date > DateTime.Now);
+                .Include(d => d.Genre)
+                .Where(d => d.Date > DateTime.Parse("1/1/2021"));
             return View(UpcomingDits);
         }
 

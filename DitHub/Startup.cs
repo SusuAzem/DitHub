@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
+
 
 namespace DitHub
 {
@@ -32,6 +34,9 @@ namespace DitHub
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+            }).AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
         }
 
@@ -59,6 +64,7 @@ namespace DitHub
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
