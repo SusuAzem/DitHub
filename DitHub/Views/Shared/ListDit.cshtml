@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Dit>
+
+<h2 class="mb-3">@ViewData["Heading"]</h2>
+<ul class="listDA">
+    @foreach (var item in Model)
+    {
+        <li class="d-flex justify-content-between">
+            <div class="number">
+                <div class="upN">@item.Date.ToString("MMM")</div>
+                <div class="downN">@item.Date.ToString("dd")</div>
+            </div>
+            <div class="details flex-fill">
+                <span class="artist">@item.AppUser.Name</span>
+                <span class="downD">@item.Genre.Name</span>
+            </div>
+            @if (User.Identity!.IsAuthenticated)
+            {
+
+                <button data-Feeid="@item.AppUserId" class="A btn btn-sm flex-fill p-1">+ Fave Artist?</button>
+                <button data-ditid="@item.Id" class="D btn btn-sm flex-fill p-1">+ Fave Ditty?</button>
+            }
+        </li>
+    }
+</ul>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".D").click(function (e) {
+                var butten = $(e.target);
+                var v = { Ditid: parseInt(butten.attr('data-ditid')) }
+                $.post({
+                    url: '/api/favedit',
+                    data: JSON.stringify(v),
+                    contentType: 'application/json'
+                })
+                    .done(function () {
+                        butten
+                            .css("box-shadow", "0.5rem 0.5rem #ccc, -0.5rem -0.5rem #f93636")
+                            .text('Added')
+                        alert('Request done!');
+                    })
+                    .fail(function (jqxhr, settings, ex) {
+                        alert('failed, ' + ex + jqxhr.responseText);
+                    })
+
+            })
+
+            $(".A").click(function (e) {
+                var butten = $(e.target);
+                var v = { FeeId: butten.attr('data-Feeid') }
+                $.post({
+                    url: '/api/followings',
+                    data: JSON.stringify(v),
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })
+                    .done(function () {
+                        butten
+                            .css("box-shadow", "0.5rem 0.5rem #ccc, -0.5rem -0.5rem #f93636")
+                            .text('followed')
+                        alert('Request done!');
+                    })
+                    .fail(function (jqxhr, settings, ex) {
+                        butten
+                            .css("box-shadow", "0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc")
+                            .text('failed')
+                        alert('failed, ' + ex + jqxhr.responseText);
+                    })
+
+            })
+        })
+    </script>
+}

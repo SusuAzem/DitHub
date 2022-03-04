@@ -13,9 +13,9 @@ namespace DitHub.Controllers
     [ApiController]
     public class FollowingsController : ControllerBase
     {
-        private ApplicationDbContext context;
+        private readonly ApplicationDbContext context;
 
-        private UserManager<AppUser> userManager;
+        private readonly UserManager<AppUser> userManager;
 
         public FollowingsController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {

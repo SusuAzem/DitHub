@@ -1,0 +1,24 @@
+﻿@model IEnumerable<AppUser>
+
+<h2 class="mb-3">@ViewData["Heading"]</h2>
+<ul class="listDA">
+    @foreach (var item in Model)
+    {
+        <li class="d-flex justify-content-between">
+            <div class="number">
+                <div class="upN">@item.Dits!.Count()</div>
+                <div class="downN">@item.Followers!.Count()</div>
+            </div>
+            <div class="details flex-fill">
+                <span class="artist">@item.Name</span>
+                <span class="downD">@item.PhoneNumber</span>
+            </div>
+            @if (User.Identity!.IsAuthenticated)
+            {
+
+                @*<button data-Feeid="@item" class="A btn btn-sm flex-fill p-1">+ Fave Artist?</button>
+                    <button data-ditid="@item.Id" class="D btn btn-sm flex-fill p-1">+ Fave Ditty?</button>*@
+            }
+        </li>
+    }
+</ul>

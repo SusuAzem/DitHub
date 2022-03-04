@@ -122,42 +122,42 @@ body {
 
 /*index page dits*/
 
-.dits {
+.listDA {
     list-style: none;
     color: black;
 }
 
-    .dits > li {
+    .listDA > li {
         position: relative;
         margin-bottom: 5%;
-        max-width: 75%;
+        /*max-width: 75%;*/
     }
 
-        .dits > li .details {
+        .listDA > li .details {
             /*position: absolute;
             top: 10px;
             left: 70px;*/
             padding: 10px;
         }
 
-            .dits > li .details .artist {
+            .listDA > li .details .artist {
                 font-weight: bold;
                 display: block;
             }
 
-            .dits > li .details .genre {
+            .listDA > li .details .downD {
                 font-size: 14px;
                 display: block;
             }
 
-        .dits > li .date {
+        .listDA > li .number {
             text-align: center;
             width: 60px;
             -webkit-border-radius: 8px;
             overflow: hidden;
         }
 
-            .dits > li .date .month {
+            .listDA > li .number .upN {
                 text-transform: uppercase;
                 font-size: 14px;
                 font-weight: bold;
@@ -166,7 +166,7 @@ body {
                 color: #fff;
             }
 
-            .dits > li .date .day {
+            .listDA > li .number .downN {
                 font-size: 20px;
                 padding: 6px 12px;
                 background: #fff;
@@ -174,7 +174,7 @@ body {
             }
 
 
-        .dits > li > button, form> .btn-primary {
+        .listDA > li > button, .create {
             position: absolute;
             right: 10px;
             top: 18px;
@@ -183,7 +183,16 @@ body {
             border-color: black;
             box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
         }
-            .btn-primary:focus, .btn-primary:hover, .dits > li > button:hover, .dits > li > button:focus {
+
+            .create:focus, .create:hover, .dits > li > button:hover, .dits > li > button:focus {
                 background-color: darksalmon;
                 border-color: black;
             }
+
+button.create {
+    position: inherit;
+}
+
+button.A {
+    right: 150px !important;
+}

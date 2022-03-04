@@ -4,6 +4,7 @@ using DitHub.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace DitHub.Controllers
@@ -18,6 +19,31 @@ namespace DitHub.Controllers
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
+        }
+
+        [Authorize]
+        public IActionResult ListFaveDit()
+        {
+            var userId = userManager.GetUserId(User);
+
+            //var L = dbContext.FaveDits
+            //        .Where(u => u.AppUserId == userId)
+            //        .Include(f => f.Dit)
+            //        .ThenInclude(f => f.AppUser)
+            //        .Include(d => d.Dit)
+            //        .ThenInclude(f => f.Genre)
+            //        .ToList();
+
+            var list = dbContext.Dits
+                .Where(d => d.FaveDits!.Where(f => f.AppUserId == userId).Any())
+                .Include(d => d.AppUser)
+                .Include(d => d.Genre)
+                .ToList();
+
+            ViewData["Title"] = "My Fave Dittes";
+            ViewData["Heading"] = "My Fave Dittes";
+            return View("ListDit", list);
+
         }
         [Authorize]
         public IActionResult Create()

@@ -9,7 +9,7 @@ namespace DitHub.ViewModels
         public override bool IsValid(object? value)
         {
             var valid = DateTime.TryParseExact(Convert.ToString(value),
-                "HH:MM",
+                "HH:mm",
                 CultureInfo.CurrentCulture,
                 DateTimeStyles.None,
                 out _);

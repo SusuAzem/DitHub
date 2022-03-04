@@ -39,7 +39,7 @@ namespace DitHub.Data
 
             modelBuilder.Entity<Following>()
                         .HasOne(f => f.Follower)
-                        .WithMany(d => d.Followees)
+                        .WithMany(a => a.Followees)
                         .HasForeignKey(f => f.FollowerId)
                         .OnDelete(DeleteBehavior.Cascade);
 
