@@ -6,6 +6,8 @@ namespace DitHub.ViewModels
 {
     public class CreateViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         public string Venue { get; set; } = "";
         public IEnumerable<Genre> Genres { get; set; } = null!;
@@ -16,7 +18,7 @@ namespace DitHub.ViewModels
 
         [Required]
         [Time(ErrorMessage = "Invalid Time")]
-        public string Time { get; set; } = "24:00";
+        public string Time { get; set; } = "";
 
         [Required]
         public byte Genre { get; set; }

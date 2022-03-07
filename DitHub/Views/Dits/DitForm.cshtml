@@ -1,12 +1,12 @@
 ﻿@model DitHub.ViewModels.CreateViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = @ViewData["Title"];
     ViewBag.Layout = "~Views/Shared/_Layout.cshtml";
 }
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 <p class="alert alert-info">All fields are <strong>Required</strong></p>
-<form method="post" asp-action="Create" asp-controller="Dits">
-
+<form method="post" asp-action="@ViewData["Action"]" asp-controller="Dits">
+    <input type="hidden" asp-for="Id" />
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="venue" placeholder="venue" asp-for="Venue" autofocus="autofocus">
         <label for="venue">Venue:</label>

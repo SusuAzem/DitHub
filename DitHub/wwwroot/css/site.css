@@ -92,7 +92,7 @@ body {
 }
 
 .form-control {
-    width: 30%;
+    width: 335px;
     height: calc(2rem + .75rem + 2px);
     padding: .5rem .5rem;
     border-radius: .4rem;
@@ -109,7 +109,7 @@ body {
 }
 
 .alert {
-    width: 30%;
+    width: 335px;
 }
 
 .form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-select ~ label {
@@ -174,7 +174,7 @@ body {
             }
 
 
-        .listDA > li > button, .create {
+        .listDA > li button, .create , a.A {
             position: absolute;
             right: 10px;
             top: 18px;
@@ -184,7 +184,7 @@ body {
             box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
         }
 
-            .create:focus, .create:hover, .dits > li > button:hover, .dits > li > button:focus {
+            .create:focus, .create:hover, .dits > li button:hover, .dits > li button:focus, a.A:hover, a.A:focus {
                 background-color: darksalmon;
                 border-color: black;
             }
@@ -193,6 +193,27 @@ button.create {
     position: inherit;
 }
 
-button.A {
+button.A, a.A {
     right: 150px !important;
+}
+
+.listDA > li .action{
+    display: none;
+}
+
+.listDA > li:hover .action {
+    display: flex;
+}
+
+
+.mt {
+    --bs-table-bg: darksalmon;
+    --bs-table-striped-bg:#f93636;
+    --bs-table-striped-color: #000;
+    --bs-table-active-bg: #faa98d;
+    --bs-table-active-color: #000;
+    --bs-table-hover-bg: #faa98d;
+    --bs-table-hover-color: #000;
+    color: #000;
+    border-color: #000000;
 }

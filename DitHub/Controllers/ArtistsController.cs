@@ -1,5 +1,6 @@
 ﻿using DitHub.Data;
 using DitHub.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -16,13 +17,11 @@ namespace DitHub.Controllers
             this.userManager = userManager;
             this.dbContext = dbContext;
         }
-
+        [Authorize]
         public IActionResult ListFaveArtist()
         {
-            var userId = userManager.GetUserId(User);
-
             var list = dbContext.Users
-                        .Where(u => u.Followers!.Where(f => f.FollowerId == userId).Any())
+                        .Where(u => u.Followers!.Where(f => f.FollowerId == userManager.GetUserId(User)).Any())
                         .ToList();
             ViewData["Title"] = "My Fave Artist";
             ViewData["Heading"] = "My Fave Artist";
