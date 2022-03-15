@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Linq;
 
-namespace DitHub.Controllers
+namespace DitHub.API
 {
     [Route("api/[controller]")]
     [ApiController]

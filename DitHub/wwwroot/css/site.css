@@ -174,7 +174,7 @@ body {
             }
 
 
-        .listDA > li button, .create , a.A {
+        .listDA > li button, .create , a.A , a.D{
             position: absolute;
             right: 10px;
             top: 18px;
@@ -184,7 +184,7 @@ body {
             box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
         }
 
-            .create:focus, .create:hover, .dits > li button:hover, .dits > li button:focus, a.A:hover, a.A:focus {
+            .create:focus, .create:hover, .dits > li button:hover, .dits > li button:focus, a.A:hover, a.A:focus, a.D:hover, a.D:focus {
                 background-color: darksalmon;
                 border-color: black;
             }
@@ -205,8 +205,12 @@ button.A, a.A {
     display: flex;
 }
 
-
-.mt {
+span.badge {
+    position: absolute;
+    right: 18px;
+    top: 8px;
+}
+/*.mt {
     --bs-table-bg: darksalmon;
     --bs-table-striped-bg:#f93636;
     --bs-table-striped-color: #000;
@@ -216,4 +220,9 @@ button.A, a.A {
     --bs-table-hover-color: #000;
     color: #000;
     border-color: #000000;
+}*/
+
+.badge {
+    font-size: inherit;
+    font-weight: 400;
 }

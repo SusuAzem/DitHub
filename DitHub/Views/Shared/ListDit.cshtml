@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Dit>
 
-<h2 class="mb-3">@ViewData["Heading"]</h2>
+<h2 class="mb-3">@ViewData["Title"]</h2>
 <ul class="listDA">
     @foreach (var item in Model)
     {
@@ -15,9 +15,15 @@
             </div>
             @if (User.Identity!.IsAuthenticated)
             {
-
-                <button data-Feeid="@item.AppUserId" class="A btn btn-sm flex-fill p-1">+ Fave Artist?</button>
-                <button data-ditid="@item.Id" class="D btn btn-sm flex-fill p-1">+ Fave Ditty?</button>
+                <button data-Feeid="@item.AppUserId" class="A btn btn-sm p-1">+ Fave Artist?</button>
+                if (item.RemoveFlag)
+                {
+                    <span class="badge bg-warning text-dark p-2">Removed</span>
+                }
+                else
+                {
+                    <button data-ditid="@item.Id" class="D btn btn-sm p-1">+ Fave Ditty?</button>
+                }
             }
         </li>
     }

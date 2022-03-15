@@ -23,6 +23,7 @@ namespace DitHub.Models
         public byte GenreId { get; set; }
 
         public virtual ICollection<FaveDit>? FaveDits { get; set; }
+        public bool RemoveFlag { get; set; }
 
 
         //public Dit(AppUser artist, Genre genre)

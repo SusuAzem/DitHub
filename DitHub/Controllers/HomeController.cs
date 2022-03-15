@@ -25,10 +25,9 @@ namespace DitHub.Controllers
             var UpcomingDits = dbContext.Dits
                 .Include(d => d.AppUser)
                 .Include(d => d.Genre)
-                .Where(d => d.Date > DateTime.Parse("1/1/2021"));
+                .Where(d => d.Date > DateTime.Parse("1/1/2021") && !d.RemoveFlag);
 
             ViewData["Title"] = "Home Dittes";
-            ViewData["Heading"] = "All Dittes";
 
             return View("ListDit", UpcomingDits);
         }

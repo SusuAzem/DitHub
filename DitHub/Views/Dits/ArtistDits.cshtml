@@ -19,51 +19,135 @@
                    class="A btn btn-sm flex-fill p-1">
                     Edit
                 </a>
-                <button data-ditid="@item.Id" data-id="@item.Id" class="D btn btn-sm flex-fill p-1">Delete</button>
+                @if (item.RemoveFlag)
+                {
+                    <span class="badge bg-warning text-dark p-2">Removed</span>
+                }
+                else
+                {
+                    <a role="button" data-id="@item.Id" class="D btn btn-sm flex-fill p-1">
+                        Remove
+                    </a>
+                }
             </div>
         </li>
     }
 </ul>
-<table class="table mt table-striped table-hover table-responsive">
-    <thead>
-        <tr>
-            <th>
-                Date
-            </th>
-            <th>
-                Time
-            </th>
-            <th>
-                Venue
-            </th>
-            <th>
-                Genre
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".D").click(function (e) {
+                var a = $(e.target);
+                var id = a.attr("data-id");
+                bootbox.dialog({
+                    title: 'Confirm',
+                    message: 'Are you shure you want to remove this Ditti?',
+                    size: 'large',
+                    onEscape: false,
+                    backdrop: true,
+                    buttons: {
+                        No: {
+                            label: 'No',
+                            className: 'btn-default',
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        Yes: {
+                            label: 'Yes',
+                            className: 'btn-danger',
+                            callback: function () {
+                                $.ajax({
+                                    url: "/api/dits/" + id,
+                                    type: "delete",
+                                    contentType: "application/json",
+                                })
+                                    .done(function () {
+                                        bootbox.dialog({
+                                            message: '<p name="p" class="listDA text-center mb-0">Please wait for awhile...</p>',
+                                            closeButton: false,
+                                            callback: function () {
+                                            }
+                                        });
+                                        window.setTimeout(function () {
+                                            bootbox.hideAll();
+                                            a.parents("li").fadeOut(function () {
+                                                $(this).remove();
+                                            });
+                                        }, 2000);
+                                    })
+                                    .fail(function () {
+                                        bootbox.alert("Opps! something went wrong")
+                                    });
+                            }
+                        },
+                    },
+                    className: 'listDA'
+                })
+
+
+            });
+        });
+
+
+                                                                                            //function() {
+                                                                                            //    var remaining = 10; // Number of seconds
+                                                                                            //    var obj = document.getElementsByName("p");
+                                                                                            //    var timeout = window.setInterval(function () {
+                                                                                            //        remaining--;
+                                                                                            //        if (remaining == 0) {
+                                                                                            //             //Time is up, stop the timer and hide the bootbox
+                                                                                            //            window.clearInterval(timeout);
+                                                                                            //            bootbox.hideAll();
+                                                                                            //            return;
+                                                                                            //        }
+                                                                                            //        obj.innerHTML = remaining; // Update the value displayed
+                                                                                            //    }, 1000); // Decrease counter every second
+                                                                                            //};
+    </script>
+}
+@*<table class="table mt table-striped table-hover table-responsive">
+        <thead>
             <tr>
-                <td>
-                    @item.Date.ToShortDateString()
-                </td>
-                <td>
-                    @item.Date.ToShortTimeString()
-                </td>
-                <td>
-                    @item.Venue
-                </td>
-                <td>
-                    @item.Genre.Name
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Venue
+                </th>
+                <th>
+                    Genre
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.Date.ToShortTimeString()
+                    </td>
+                    <td>
+                        @item.Venue
+                    </td>
+                    <td>
+                        @item.Genre.Name
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@

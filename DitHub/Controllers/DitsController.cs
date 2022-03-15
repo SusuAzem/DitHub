@@ -38,13 +38,6 @@ namespace DitHub.Controllers
         [Authorize]
         public IActionResult ListFaveDit()
         {
-            //var L = dbContext.FaveDits
-            //        .Where(u => u.AppUserId == userId)
-            //        .Include(f => f.Dit)
-            //        .ThenInclude(f => f.AppUser)
-            //        .Include(d => d.Dit)
-            //        .ThenInclude(f => f.Genre)
-            //        .ToList();
 
             var list = dbContext.Dits
                 .Where(d => d.FaveDits!.Where(f => f.AppUserId == userManager.GetUserId(User)).Any())
@@ -53,7 +46,6 @@ namespace DitHub.Controllers
                 .ToList();
 
             ViewData["Title"] = "My Fave Dittes";
-            ViewData["Heading"] = "My Fave Dittes";
             return View("ListDit", list);
 
         }
