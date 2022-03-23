@@ -128,15 +128,10 @@ body {
 }
 
     .listDA > li {
-        position: relative;
         margin-bottom: 5%;
-        /*max-width: 75%;*/
     }
 
         .listDA > li .details {
-            /*position: absolute;
-            top: 10px;
-            left: 70px;*/
             padding: 10px;
         }
 
@@ -174,14 +169,12 @@ body {
             }
 
 
-        .listDA > li button, .create , a.A , a.D{
-            position: absolute;
-            right: 10px;
-            top: 18px;
+        .listDA > li button, .create, a.A, a.D {
             color: black;
             background-color: #fff;
             border-color: black;
             box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
+            margin: .5rem !important;
         }
 
             .create:focus, .create:hover, .dits > li button:hover, .dits > li button:focus, a.A:hover, a.A:focus, a.D:hover, a.D:focus {
@@ -193,10 +186,6 @@ button.create {
     position: inherit;
 }
 
-button.A, a.A {
-    right: 150px !important;
-}
-
 .listDA > li .action{
     display: none;
 }
@@ -205,11 +194,11 @@ button.A, a.A {
     display: flex;
 }
 
-span.badge {
-    position: absolute;
-    right: 18px;
-    top: 8px;
+.ms-auto{
+    align-items:center;
+    justify-content:center;
 }
+
 /*.mt {
     --bs-table-bg: darksalmon;
     --bs-table-striped-bg:#f93636;
@@ -225,4 +214,5 @@ span.badge {
 .badge {
     font-size: inherit;
     font-weight: 400;
+    margin: .5rem !important;
 }

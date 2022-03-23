@@ -10,7 +10,8 @@ namespace DitHub.Data
         public DbSet<Genre> Genres => Set<Genre>();
         public DbSet<FaveDit> FaveDits => Set<FaveDit>();
         public DbSet<Following> Followings => Set<Following>();
-
+        public DbSet<Notification> Notifications => Set<Notification>();
+        public DbSet<UserNotification> UserNotifications => Set<UserNotification>();
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -48,6 +49,21 @@ namespace DitHub.Data
                         .WithMany(a => a.Followers)
                         .HasForeignKey(f => f.FolloweeId)
                         .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<UserNotification>()
+                        .HasKey(u => new { u.AppUserId, u.NotificationId });
+
+            modelBuilder.Entity<UserNotification>()
+                        .HasOne(u => u.Notification)
+                        .WithMany(n => n.UserNotifications)
+                        .HasForeignKey(u => u.NotificationId)
+                        .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<UserNotification>()
+                        .HasOne(u => u.AppUser)
+                        .WithMany(a => a.UserNotifications)
+                        .HasForeignKey(u => u.AppUserId)
+                        .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

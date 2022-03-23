@@ -4,8 +4,8 @@
 <ul class="listDA">
     @foreach (var item in Model)
     {
-        <li class="d-flex justify-content-between">
-            <div class="number">
+        <li class="d-flex">
+            <div class="number flex-shrink-0">
                 <div class="upN">@item.Date.ToString("MMM")</div>
                 <div class="downN">@item.Date.ToString("dd")</div>
             </div>
@@ -13,18 +13,20 @@
                 <span class="artist">@item.AppUser.Name</span>
                 <span class="downD">@item.Genre.Name</span>
             </div>
-            @if (User.Identity!.IsAuthenticated)
-            {
-                <button data-Feeid="@item.AppUserId" class="A btn btn-sm p-1">+ Fave Artist?</button>
-                if (item.RemoveFlag)
+            <div class="ms-auto">
+                @if (User.Identity!.IsAuthenticated)
                 {
-                    <span class="badge bg-warning text-dark p-2">Removed</span>
+                    <button data-Feeid="@item.AppUserId" class="A btn btn-sm p-1">+ Fave Artist?</button>
+                    if (item.RemoveFlag)
+                    {
+                        <span class="badge bg-warning text-dark p-2">Removed</span>
+                    }
+                    else
+                    {
+                        <button data-ditid="@item.Id" class="D btn btn-sm p-1">+ Fave Ditty?</button>
+                    }
                 }
-                else
-                {
-                    <button data-ditid="@item.Id" class="D btn btn-sm p-1">+ Fave Ditty?</button>
-                }
-            }
+            </div>
         </li>
     }
 </ul>

@@ -30,7 +30,6 @@ namespace DitHub.Controllers
                 .ToList();
 
             ViewData["Title"] = "My Dittes";
-            ViewData["Heading"] = "My Dittes";
             return View(list);
 
         }
@@ -71,13 +70,7 @@ namespace DitHub.Controllers
                 viewModel.Genres = dbContext.Genres.ToList();
                 return View("DitForm", viewModel);
             }
-            var dit = new Dit()
-            {
-                AppUserId = userManager.GetUserId(User),
-                Date = viewModel.GetDateTime(),
-                GenreId = viewModel.Genre,
-                Venue = viewModel.Venue
-            };
+            var dit = new Dit(userManager.GetUserId(User), viewModel.GetDateTime(), viewModel.Genre, viewModel.Venue);
 
             dbContext.Add(dit);
             dbContext.SaveChanges();
@@ -115,11 +108,11 @@ namespace DitHub.Controllers
                 viewModel.Genres = dbContext.Genres.ToList();
                 return View("DitForm", viewModel);
             }
-            var dit = dbContext.Dits.FirstOrDefault(d => d.Id == viewModel.Id && d.AppUserId == userManager.GetUserId(User));
+            var dit = dbContext.Dits
+                .Include(d => d.FaveDits)
+                .FirstOrDefault(d => d.Id == viewModel.Id && d.AppUserId == userManager.GetUserId(User));
 
-            dit!.Date = viewModel.GetDateTime();
-            dit!.GenreId = viewModel.Genre;
-            dit!.Venue = viewModel.Venue;
+            dit!.Update(viewModel);
 
             dbContext.SaveChanges();
             return RedirectToAction("ArtistDits");

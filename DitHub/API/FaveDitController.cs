@@ -42,11 +42,8 @@ namespace DitHub.API
                 return BadRequest(" you liked this ditty already");
             }
 
-            var Fave = new FaveDit
-            {
-                AppUserId = userId,
-                DitId = ditdto.Ditid,
-            };
+            var Fave = new FaveDit(userId, ditdto.Ditid);
+
             dbContext.FaveDits.Add(Fave);
             dbContext.SaveChanges();
             //return Ok();

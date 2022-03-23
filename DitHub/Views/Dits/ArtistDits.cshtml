@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<DitHub.Models.Dit>
 
-<h1>@ViewData["Heading"]</h1>
+<h1>@ViewData["Title"]</h1>
 
 <ul class="listDA">
     @foreach (var item in Model)
     {
-        <li class="d-flex justify-content-between">
+        <li class="d-flex">
             <div class="number">
                 <div class="upN">@item.Date.ToString("MMM")</div>
                 <div class="downN">@item.Date.ToString("dd")</div>
@@ -14,7 +14,7 @@
                 <span class="artist">@item.Venue</span>
                 <span class="downD">@item.Genre.Name</span>
             </div>
-            <div class="action">
+            <div class="action ms-auto">
                 <a role="button" asp-action="Edit" asp-controller="Dits" asp-route-id="@item.Id"
                    class="A btn btn-sm flex-fill p-1">
                     Edit
@@ -92,20 +92,20 @@
         });
 
 
-                                                                                            //function() {
-                                                                                            //    var remaining = 10; // Number of seconds
-                                                                                            //    var obj = document.getElementsByName("p");
-                                                                                            //    var timeout = window.setInterval(function () {
-                                                                                            //        remaining--;
-                                                                                            //        if (remaining == 0) {
-                                                                                            //             //Time is up, stop the timer and hide the bootbox
-                                                                                            //            window.clearInterval(timeout);
-                                                                                            //            bootbox.hideAll();
-                                                                                            //            return;
-                                                                                            //        }
-                                                                                            //        obj.innerHTML = remaining; // Update the value displayed
-                                                                                            //    }, 1000); // Decrease counter every second
-                                                                                            //};
+                                                                                                        //function() {
+                                                                                                        //    var remaining = 10; // Number of seconds
+                                                                                                        //    var obj = document.getElementsByName("p");
+                                                                                                        //    var timeout = window.setInterval(function () {
+                                                                                                        //        remaining--;
+                                                                                                        //        if (remaining == 0) {
+                                                                                                        //             //Time is up, stop the timer and hide the bootbox
+                                                                                                        //            window.clearInterval(timeout);
+                                                                                                        //            bootbox.hideAll();
+                                                                                                        //            return;
+                                                                                                        //        }
+                                                                                                        //        obj.innerHTML = remaining; // Update the value displayed
+                                                                                                        //    }, 1000); // Decrease counter every second
+                                                                                                        //};
     </script>
 }
 @*<table class="table mt table-striped table-hover table-responsive">

@@ -1,17 +1,30 @@
-﻿using System;
+﻿using DitHub.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace DitHub.Models
 {
     public class Dit
     {
-        public int Id { get; set; }
-        public virtual AppUser AppUser { get; set; } = null!;
+        public Dit()
+        {
+        }
+        public Dit(string id, DateTime dateTime, byte genre, string venue)
+        {
+            AppUserId = id;
+            Date = dateTime;
+            GenreId = genre;
+            Venue = venue;
+        }
+
+        public int Id { get; private set; }
+        public virtual AppUser AppUser { get; private set; } = null!;
         [Required]
         [ForeignKey("AppUser")]
-        public string AppUserId { get; set; } = null!;
+        public string AppUserId { get; private set; } = null!;
         [Required]
         public DateTime Date { get; set; }
         [Required]
@@ -22,15 +35,36 @@ namespace DitHub.Models
         [ForeignKey("Genre")]
         public byte GenreId { get; set; }
 
-        public virtual ICollection<FaveDit>? FaveDits { get; set; }
-        public bool RemoveFlag { get; set; }
+        public virtual ICollection<FaveDit>? FaveDits { get; private set; }
+        public bool RemoveFlag { get; private set; }
 
+        public virtual ICollection<Notification>? Notifications { get; private set; }
+        internal void Remove()
+        {
+            RemoveFlag = true;
 
-        //public Dit(AppUser artist, Genre genre)
-        //{
-        //    Artist = artist;
-        //    Genre = genre;
-        //}
-        //=> (Artist, Genre) = (user, genre);
+            var notifi = Notification.DitCanceled(this);
+
+            foreach (var item in FaveDits!.Select(f => f.AppUser))
+            {
+                item.Notifi(notifi);
+            }
+        }
+
+        internal void Update(CreateViewModel viewModel)
+        {
+            //saving old value
+            var notifi = Notification.DitUpdated(this, Date, Venue);
+
+            Date = viewModel.GetDateTime();
+            Venue = viewModel.Venue;
+            GenreId = viewModel.Genre;
+
+            foreach (var item in FaveDits!.Select(f => f.AppUser))
+            {
+                item.Notifi(notifi);
+            }
+
+        }
     }
 }
