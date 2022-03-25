@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace DitHub.Models
 {
@@ -34,10 +35,10 @@ namespace DitHub.Models
         [Required]
         [ForeignKey("Genre")]
         public byte GenreId { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<FaveDit>? FaveDits { get; private set; }
         public bool RemoveFlag { get; private set; }
-
+        [JsonIgnore]
         public virtual ICollection<Notification>? Notifications { get; private set; }
         internal void Remove()
         {

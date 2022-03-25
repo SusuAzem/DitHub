@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,7 @@ namespace DitHub.Models
         [ForeignKey("Dit")]
         public int DitId { get; set; }
         public virtual Dit Dit { get; private set; } = null!;
+        [JsonIgnore]
         public virtual ICollection<UserNotification>? UserNotifications { get; set; }
 
         private Notification(NotificationType type, Dit dit)
@@ -36,10 +38,11 @@ namespace DitHub.Models
 
         public static Notification DitUpdated(Dit dit, DateTime dateTime, string venue)
         {
-            var notifi = new Notification(NotificationType.DitUpdated, dit);
-
-            notifi.DateTime0 = dateTime;
-            notifi.Venue0 = venue;
+            var notifi = new Notification(NotificationType.DitUpdated, dit)
+            {
+                DateTime0 = dateTime,
+                Venue0 = venue
+            };
 
             return notifi;
         }

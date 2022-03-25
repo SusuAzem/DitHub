@@ -46,11 +46,7 @@ namespace DitHub.API
             context.Followings.Add(folloing);
             context.SaveChanges();
 
-            return Ok(JsonConvert.SerializeObject(folloing, Formatting.Indented, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                NullValueHandling = NullValueHandling.Ignore
-            }));
+            return Ok(JsonConvert.SerializeObject(folloing));
         }
     }
 }

@@ -24,6 +24,7 @@ namespace DitHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(b => b
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 .UseLazyLoadingProxies());
@@ -34,9 +35,13 @@ namespace DitHub
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
-            }).AddNewtonsoftJson(options =>
+            })
+                .AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
         }
 
