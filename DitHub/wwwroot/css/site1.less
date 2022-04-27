@@ -1,0 +1,329 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+/* Provide sufficient contrast against white background */
+/* Sticky footer styles
+-------------------------------------------------- */
+/* Sticky footer styles
+-------------------------------------------------- */
+/*my overrides*/
+/*index page dits*/
+/*.mt {
+    --bs-table-bg: darksalmon;
+    --bs-table-striped-bg:#f93636;
+    --bs-table-striped-color: #000;
+    --bs-table-active-bg: #faa98d;
+    --bs-table-active-color: #000;
+    --bs-table-hover-bg: #faa98d;
+    --bs-table-hover-color: #000;
+    color: #000;
+    border-color: #000000;
+}*/
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+a {
+    color: #0366d6;
+}
+
+.nav-pills {
+    .nav-link.active {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+    }
+
+    .show {
+        > .nav-link {
+            color: #fff;
+            background-color: #1b6ec2;
+            border-color: #1861ac;
+        }
+    }
+}
+
+.nav-link {
+    &:focus {
+        background-color: #841f1f7d;
+    }
+
+    &:hover {
+        background-color: #841f1f7d;
+    }
+}
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+body {
+    margin-bottom: 60px;
+    color: #f93636;
+    font-family: Quintessential,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 1rem;
+    line-height: 60px;
+}
+
+.bg-white {
+    background-color: #f93636 !important;
+}
+
+.text-dark {
+    color: #000 !important;
+}
+
+.btn-link {
+    font-size: 1rem;
+}
+
+.form-control {
+    width: 335px;
+    height: calc(2rem + .75rem + 2px);
+    padding: .5rem .5rem;
+    border-radius: .4rem;
+
+    &:focus {
+        color: #495057;
+        border-color: #000;
+        box-shadow: 0 0 0 .2rem rgba(249, 54, 54, 0.59);
+    }
+}
+
+.dropdown-menu {
+    box-shadow: 0 5px 5px #f05e5e4a;
+}
+
+.alert {
+    width: 335px;
+}
+
+.form-floating {
+    > .form-control {
+        &:focus {
+            ~ label {
+                transform: scale(.70) translateY(-.5rem) translateX(.15rem);
+            }
+        }
+        &:not(placeholder-shown) {
+            ~ label {
+                transform: scale(.70) translateY(-.5rem) translateX(.15rem);
+            }
+        }
+    }
+    > .form-select {
+        ~ label {
+            transform: scale(.70) translateY(-.5rem) translateX(.15rem);
+        }
+    }
+}
+
+.form-select {
+    font-size: 0.9rem;
+}
+
+.listDA {
+    list-style: none;
+    color: black;
+    > li {
+        margin-bottom: 5%;
+        .details {
+            padding: 10px;
+            .artist {
+                font-weight: bold;
+                display: block;
+            }
+            .downD {
+                font-size: 14px;
+                display: block;
+            }
+        }
+        .number {
+            text-align: center;
+            width: 60px;
+            -webkit-border-radius: 8px;
+            overflow: hidden;
+            .upN {
+                text-transform: uppercase;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 2px 6px;
+                background: #f93636;
+                color: #fff;
+            }
+            .downN {
+                font-size: 20px;
+                padding: 6px 12px;
+                background: #fff;
+                color: black;
+            }
+        }
+        button {
+            color: black;
+            background-color: #fff;
+            border-color: black;
+            box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
+            margin: .5rem !important;
+        }
+        .action {
+            display: none;
+        }
+        &:hover {
+            .action {
+                display: flex;
+            }
+        }
+    }
+}
+
+.create {
+    color: black;
+    background-color: #fff;
+    border-color: black;
+    box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
+    margin: .5rem !important;
+    &:focus {
+        background-color: darksalmon;
+        border-color: black;
+    }
+    &:hover {
+        background-color: darksalmon;
+        border-color: black;
+    }
+}
+
+a.A {
+    color: black;
+    background-color: #fff;
+    border-color: black;
+    box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
+    margin: .5rem !important;
+    &:hover {
+        background-color: darksalmon;
+        border-color: black;
+    }
+    &:focus {
+        background-color: darksalmon;
+        border-color: black;
+    }
+}
+
+a.D {
+    color: black;
+    background-color: #fff;
+    border-color: black;
+    box-shadow: 0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc;
+    margin: .5rem !important;
+    &:hover {
+        background-color: darksalmon;
+        border-color: black;
+    }
+    &:focus {
+        background-color: darksalmon;
+        border-color: black;
+    }
+}
+
+.dits {
+    > li {
+        button {
+            &:hover {
+                background-color: darksalmon;
+                border-color: black;
+            }
+            &:focus {
+                background-color: darksalmon;
+                border-color: black;
+            }
+        }
+    }
+}
+
+button.create {
+    position: inherit;
+}
+
+.ms-auto {
+    align-items: center;
+    justify-content: center;
+}
+
+.badge {
+    font-size: inherit;
+    font-weight: 400;
+    margin: .5rem !important;
+}
+
+span.N {
+    position: absolute !important;
+    font-size: x-small;
+    font-weight: 500;
+    padding: 0.30rem;
+    line-height: 0.75;
+    background-color: #ac0e0e;
+    color: #fff;
+    left: 30% !important;
+    top: -20% !important;
+    border-radius: 50rem !important;
+}
+
+a.bi {
+    position: relative;
+}
+
+.p-line {
+    ul.NP {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+        > li {
+            border-bottom: 1px solid #f93636;
+            padding: 10px;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+    .popover-body {
+        padding: 0;
+    }
+    .N-name {
+        font-weight: bold;
+    }
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}

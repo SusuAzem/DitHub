@@ -54,9 +54,22 @@ namespace DitHub.Models
 
         internal void Update(CreateViewModel viewModel)
         {
+            Notification notifi;
+            string changed = "none";
             //saving old value
-            var notifi = Notification.DitUpdated(this, Date, Venue);
-
+            if (Date != viewModel.GetDateTime())
+            {
+                changed = "date";
+            }
+            if (Venue != viewModel.Venue)
+            {
+                changed = "venue";
+            }
+            if (Date != viewModel.GetDateTime() && Venue != viewModel.Venue)
+            {
+                changed = "both";
+            }
+            notifi = Notification.DitUpdated(this, Date, Venue, changed);
             Date = viewModel.GetDateTime();
             Venue = viewModel.Venue;
             GenreId = viewModel.Genre;

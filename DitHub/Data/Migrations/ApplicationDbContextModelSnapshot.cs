@@ -193,6 +193,9 @@ namespace DitHub.Data.Migrations
                     b.Property<string>("Venue0")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("changed")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DitId");

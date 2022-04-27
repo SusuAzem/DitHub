@@ -9,6 +9,9 @@ namespace DitHub.DTO
         public NotificationType Type { get; set; }
         public DateTime? DateTime0 { get; set; }
         public string? Venue0 { get; set; }
+
+        public string? changed { get; set; }
+
         public DitDTO Dit { get; set; } = null!;
     }
 }

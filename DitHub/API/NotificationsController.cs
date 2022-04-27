@@ -34,15 +34,6 @@ namespace DitHub.API
                 .Where(un => un.AppUserId == userManager.GetUserId(User) && !un.IsRead).Any())
                 .ToList();
 
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<AppUser, AppUserDTO>();
-            //    cfg.CreateMap<Genre, GenreDTO>();
-            //    cfg.CreateMap<Dit, DitDTO>();
-            //    cfg.CreateMap<Notification, NotificationDTO>();
-            //});
-            //var mapper = new Mapper(config);
-
             List<NotificationDTO> dto = mapper.Map<List<Notification>, List<NotificationDTO>>(notifications);
 
             return dto;

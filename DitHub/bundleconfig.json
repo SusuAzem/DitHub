@@ -2,9 +2,53 @@
   {
     "outputFileName": "wwwroot/lib/bundle.js",
     "inputFiles": [
-      "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
-      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
-      "wwwroot/lib/bootbox.js"
-    ]
+      "wwwroot/lib/underscore/underscore.js",
+      "wwwroot/lib/underscore/underscore.js.map",
+      "wwwroot/lib/moment/moment.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootdep.js",
+    "inputFiles": [
+      "wwwroot/lib/bootbox/bootbox.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/lib/validate.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-validate/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/lib/modernizr.js",
+    "inputFiles": [
+      "wwwroot/lib/modernizr/modernizr.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/lib/style.css",
+    "inputFiles": [
+      "wwwroot/lib/animate/animate.css",
+      "wwwroot/lib/bootstrap-icons/font/bootstrap-icons.css",
+      "wwwroot/css/site.css"
+    ],
+    "minify": { "enabled": true }
   }
 ]
