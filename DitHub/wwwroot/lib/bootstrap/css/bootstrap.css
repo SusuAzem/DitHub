@@ -154,10 +154,10 @@ p {
 
 abbr[title],
 abbr[data-bs-original-title] {
-  -webkit-text-decoration: underline dotted;
+  /*-webkit-text-decoration: underline dotted;*/
   text-decoration: underline dotted;
   cursor: help;
-  -webkit-text-decoration-skip-ink: none;
+  /*-webkit-text-decoration-skip-ink: none;*/
   text-decoration-skip-ink: none;
 }
 
@@ -2191,9 +2191,9 @@ progress {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  /*-webkit-appearance: none;*/
+/*  -moz-appearance: none;
+*/  appearance: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -2412,8 +2412,8 @@ textarea.form-control-lg {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  /*-webkit-appearance: none;*/
+  /*-moz-appearance: none;*/
   appearance: none;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2475,8 +2475,8 @@ textarea.form-control-lg {
   background-position: center;
   background-size: contain;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  /*-webkit-appearance: none;*/
+  /*-moz-appearance: none;*/
   appearance: none;
   -webkit-print-color-adjust: exact;
   color-adjust: exact;
@@ -2564,8 +2564,8 @@ textarea.form-control-lg {
   height: 1.5rem;
   padding: 0;
   background-color: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  /*-webkit-appearance: none;*/
+  /*-moz-appearance: none;*/
   appearance: none;
 }
 .form-range:focus {
@@ -2616,14 +2616,14 @@ textarea.form-control-lg {
   background-color: #0d6efd;
   border: 0;
   border-radius: 1rem;
-  -moz-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  /*-moz-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -moz-appearance: none;
+  /*-moz-appearance: none;*/
   appearance: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .form-range::-moz-range-thumb {
-    -moz-transition: none;
+    /*-moz-transition: none;*/
     transition: none;
   }
 }

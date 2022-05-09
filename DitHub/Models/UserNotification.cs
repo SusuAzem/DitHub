@@ -17,7 +17,7 @@ namespace DitHub.Models
         [ForeignKey("Notification")]
         public int NotificationId { get; private set; }
 
-        public bool IsRead { get; set; }
+        public bool IsRead { get; private set; }
 
         //this is an association class so it should always reference an existing objects and not to go in an invalid state
         //by setting properties in the custom constructor with not null values, and a default constructor for EF, 
@@ -29,5 +29,10 @@ namespace DitHub.Models
 
         public UserNotification(AppUser user, Notification notification)
         => (AppUser, Notification) = (user, notification);
+
+        internal void Read()
+        {
+            this.IsRead = true;
+        }
     }
 }

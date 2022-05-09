@@ -26,7 +26,7 @@ namespace DitHub.API
             this.mapper = mapper;
         }
         [HttpGet]
-        public IEnumerable<NotificationDTO> GetNotifications()
+        public List<NotificationDTO> GetNotifications()
         {
             var notifications = dbContext.Notifications
                 .Include(n => n.Dit.AppUser)
@@ -34,29 +34,40 @@ namespace DitHub.API
                 .Where(un => un.AppUserId == userManager.GetUserId(User) && !un.IsRead).Any())
                 .ToList();
 
-            List<NotificationDTO> dto = mapper.Map<List<Notification>, List<NotificationDTO>>(notifications);
+            List<NotificationDTO> dto1 = mapper.Map<List<Notification>, List<NotificationDTO>>(notifications);
+            foreach (var item in dto1)
+            {
+                item.Statue = "new";
+            }
 
-            return dto;
-            //    notifications.Select(
-            //n => new NotificationDTO()
-            //{
-            //    DateTime = n.DateTime,
-            //    Type = n.Type,
-            //    DateTime0 = n.DateTime0,
-            //    Venue0 = n.Venue0,
-            //    Dit = new DitDTO()
-            //    {
-            //        Id = n.Dit.Id,
-            //        Date = n.Dit.Date,
-            //        Venue = n.Dit.Venue,
-            //        RemoveFlag = n.Dit.RemoveFlag,
-            //        AppUser = new AppUserDTO()
-            //        {
-            //            Id = n.Dit.AppUser.Id,
-            //            Name = n.Dit.AppUser.Name,
-            //        },
-            //    }
-            //});
+            var oldnotification = dbContext.Notifications
+            .Include(n => n.Dit.AppUser)
+            .Where(n => n.UserNotifications!
+            .Where(un => un.AppUserId == userManager.GetUserId(User)).Any())
+            .OrderByDescending(n => n.DateTime)
+            .Take(3)
+            .ToList();
+
+            List<NotificationDTO> dto2 = mapper.Map<List<Notification>, List<NotificationDTO>>(oldnotification);
+            foreach (var item in dto2)
+            {
+                item.Statue = "old";
+            }
+
+            dto2.ForEach(item => dto1.Add(item));
+            return dto1;
+        }
+
+        [HttpPost("makeread")]
+        [IgnoreAntiforgeryToken]
+        public IActionResult MakeRead()
+        {
+            var notifications = dbContext.UserNotifications
+               .Where(un => un.AppUserId == userManager.GetUserId(User) && !un.IsRead)
+               .ToList();
+            notifications.ForEach(un => un.Read());
+            dbContext.SaveChanges();
+            return Ok();
         }
     }
 }

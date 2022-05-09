@@ -43,6 +43,10 @@ namespace DitHub
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            //services.AddAntiforgery(options =>
+            //{
+            //    options.HeaderName = "X-XSRF-TOKEN";
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

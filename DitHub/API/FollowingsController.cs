@@ -37,16 +37,16 @@ namespace DitHub.API
                 return BadRequest(": you've already followed that artist");
             }
 
-            var folloing = new Following()
+            var following = new Following()
             {
                 FollowerId = userId,
                 FolloweeId = dTO.FeeId
             };
 
-            context.Followings.Add(folloing);
+            context.Followings.Add(following);
             context.SaveChanges();
 
-            return Ok(JsonConvert.SerializeObject(folloing));
+            return Ok(JsonConvert.SerializeObject(following));
         }
     }
 }

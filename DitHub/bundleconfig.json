@@ -3,7 +3,6 @@
     "outputFileName": "wwwroot/lib/bundle.js",
     "inputFiles": [
       "wwwroot/lib/underscore/underscore.js",
-      "wwwroot/lib/underscore/underscore.js.map",
       "wwwroot/lib/moment/moment.js"
     ],
     "minify": {

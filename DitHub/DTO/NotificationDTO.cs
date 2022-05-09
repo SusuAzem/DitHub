@@ -13,5 +13,7 @@ namespace DitHub.DTO
         public string? changed { get; set; }
 
         public DitDTO Dit { get; set; } = null!;
+
+        public string? Statue { get; set; }
     }
 }

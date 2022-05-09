@@ -249,12 +249,20 @@ a.bi {
     padding: 10px;
 }
 
-.p-line ul.NP > li:last-child {
+    .p-line ul.NP > li#new {
+        background-color:aqua;
+                        }
+    .p-line ul.NP > li#old {
+        background-color:coral
+    }
+        .p-line ul.NP > li:last-child {
     border-bottom: none;
 }
 
 .p-line .popover-body {
     padding: 0;
+    height: 150px;
+    overflow: auto;
 }
 
 .p-line .N-name{

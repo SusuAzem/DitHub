@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace DitHub.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [IgnoreAntiforgeryToken]
     public class LoginModel : PageModel
     {
         //private readonly UserManager<IdentityUser> _userManager;

@@ -77,6 +77,14 @@
     <script type="text/template" id="notifi-temp">
         <ul class="NP">
             <% _.each(notifis,function(notifi) { %>
+            <% if (notifi.statue == "new") {
+            $("ul.NP>li").attr("id", "new")
+            console.log("new");
+            }
+            if (notifi.statue == "old") {
+            $("ul.NP>li").css("background-color", "red")
+            console.log("old");
+            }%>
             <% if (notifi.type == 2) { %>
             <li>
                 <span class="N-name"><%= notifi.dit.appUser.name %></span> canceled the dit at venue <%= notifi.dit.venue %> at <%= moment(notifi.dit.date).format("D MMM HH:mm") %>
@@ -106,8 +114,8 @@
                 </span> updated the dit from <%= moment(notifi.dateTime0).format("D MMM HH:mm") %>/<%= notifi.venue0 %> to <%= moment(notifi.dit.date).format("D MMM HH:mm") %>/<%= notifi.dit.venue %>
                 <% } %>
             </li>
-            <% }
-            }) %>
+            <% }%>
+            <% }) %>
         </ul>
     </script>
     <script>
@@ -115,9 +123,19 @@
             $.getJSON("/api/notifications", function (notifications) {
                 if (notifications.length == 0)
                     return;
+                //var array = JSON.parse(notifications);
+                //array.foreach(function (notifi) {
+                //    if (notifi.statue == "new") {
+                //        $(".NP > li").css("background-color", "lightgray")
+                //        console.log("new");
+                //    }
+                //    if (notifi.statue == "old") {
+                //        $("NP > li").css("background-color", "#ac0e0e")
+                //        console.log("old");
+                //    }
+                //})
                 $(".N")
                     .text(notifications.length)
-                    .removeClass("hide")
                     .addClass("animate__animated animate__bounce");
                 $('.bi').popover({
                     placement: 'bottom',
@@ -125,17 +143,27 @@
                     html: true,
                     trigger: "click focus",
                     template: '<div class="popover p-line" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-                    content: function () {
-                        var compiled = _.template($("#notifi-temp").html());
-                        return compiled({ notifis: notifications });
-                    }
-                }).click(function (evt) {
-                    evt.stopPropagation();
-                    $(this).popover('show');
-                });
-            });
+                    content:
+                        function () {
+                            var compiled = _.template($("#notifi-temp").html());
+                            return compiled({ notifis: notifications });
+                        },
+                })
+                    .on("shown.bs.popover", function () {
+                        $.post("/api/notifications/makeread")
+                            .done(function () {
+                                console.log("marked");
+                                $(".N").text("0");
+                            });
+                    })
+                    .click(function (evt) {
+                        evt.stopPropagation();
+                        //    $(this).popover('show');
+                    });
+            }
+            );
             $('html').click(function () {
-                $('.bi').popover('hide');
+                $('.bi').popover('hide')
             });
         });
     </script>
