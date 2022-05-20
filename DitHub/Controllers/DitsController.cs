@@ -117,5 +117,10 @@ namespace DitHub.Controllers
             dbContext.SaveChanges();
             return RedirectToAction("ArtistDits");
         }
+        [HttpPost]
+        public IActionResult Search(ListDitViewModel viewModel)
+        {
+            return RedirectToAction("Index", "Home", new { query = viewModel.SearchTerm });
+        }
     }
 }

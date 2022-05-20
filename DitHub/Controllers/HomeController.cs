@@ -1,5 +1,6 @@
 ﻿using DitHub.Data;
 using DitHub.Models;
+using DitHub.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,16 +21,28 @@ namespace DitHub.Controllers
             this.dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? query = null)
         {
             var UpcomingDits = dbContext.Dits
                 .Include(d => d.AppUser)
                 .Include(d => d.Genre)
                 .Where(d => d.Date > DateTime.Parse("1/1/2021") && !d.RemoveFlag);
 
-            ViewData["Title"] = "Home Dittes";
+            if (!String.IsNullOrWhiteSpace(query))
+            {
+                UpcomingDits = UpcomingDits.Where(d =>
+                d.AppUser.Name.Contains(query) ||
+                d.Genre.Name.Contains(query) ||
+                d.Venue.Contains(query));
+            }
+            var model = new ListDitViewModel()
+            {
+                Dits = UpcomingDits,
+                Title = "Home Dittes",
+                SearchTerm = query,
+            };
 
-            return View("ListDit", UpcomingDits);
+            return View("ListDit", model);
         }
 
         public IActionResult Privacy()

@@ -123,21 +123,10 @@
             $.getJSON("/api/notifications", function (notifications) {
                 if (notifications.length == 0)
                     return;
-                //var array = JSON.parse(notifications);
-                //array.foreach(function (notifi) {
-                //    if (notifi.statue == "new") {
-                //        $(".NP > li").css("background-color", "lightgray")
-                //        console.log("new");
-                //    }
-                //    if (notifi.statue == "old") {
-                //        $("NP > li").css("background-color", "#ac0e0e")
-                //        console.log("old");
-                //    }
-                //})
                 $(".N")
                     .text(notifications.length)
                     .addClass("animate__animated animate__bounce");
-                $('.bi').popover({
+                $('a.bi').popover({
                     placement: 'bottom',
                     container: 'body',
                     html: true,
@@ -158,12 +147,12 @@
                     })
                     .click(function (evt) {
                         evt.stopPropagation();
-                        //    $(this).popover('show');
+                        $(this).popover('show');
                     });
             }
             );
             $('html').click(function () {
-                $('.bi').popover('hide')
+                $('a.bi').popover('hide')
             });
         });
     </script>

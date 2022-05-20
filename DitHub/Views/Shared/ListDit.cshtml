@@ -1,8 +1,21 @@
-﻿@model IEnumerable<Dit>
+﻿@model DitHub.ViewModels.ListDitViewModel
 
-<h2 class="mb-3">@ViewData["Title"]</h2>
+<h2 class="mb-3">@Model.Title</h2>
+
+<form method="post" asp-action="Search" asp-controller="Dits">
+    <div class="input-group mb-3">
+        <div id="searchdiv" class="form-floating" tabindex="0">
+            <input type="text" class="form-control" aria-label="Seaech Dittes"
+                   aria-describedby="addon" asp-for="@Model.SearchTerm" id="searchin">
+            <label for="search">Search Dittes:</label>
+        </div>
+        <button class="input-group-text" id="addon" type="submit">
+            <i class="bi bi-search"></i>
+        </button>
+    </div>
+</form>
 <ul class="listDA">
-    @foreach (var item in Model)
+    @foreach (var item in Model.Dits)
     {
         <li class="d-flex">
             <div class="number flex-shrink-0">
@@ -77,5 +90,6 @@
 
             })
         })
+
     </script>
 }

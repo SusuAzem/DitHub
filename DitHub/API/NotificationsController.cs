@@ -67,7 +67,7 @@ namespace DitHub.API
                .ToList();
             notifications.ForEach(un => un.Read());
             dbContext.SaveChanges();
-            return Ok();
+            return StatusCode(204);
         }
     }
 }
