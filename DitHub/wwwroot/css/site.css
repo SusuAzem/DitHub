@@ -142,7 +142,7 @@ body {
 
             .listDA > li .details .artist {
                 font-weight: bold;
-                display: block;
+                display: inline-block;
             }
 
             .listDA > li .details .downD {
@@ -174,7 +174,7 @@ body {
             }
 
 
-        .listDA > li button, .create, a.A, a.D {
+        .listDA > li button, .create, a.A, a.D, h3 > button.A {
             color: black;
             background-color: #fff;
             border-color: black;

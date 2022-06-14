@@ -13,7 +13,7 @@ namespace DitHub.ViewModels
         public IEnumerable<Genre> Genres { get; set; } = null!;
 
         [Required]
-        [Date(ErrorMessage = "Invalid date")]
+        [Date(ErrorMessage = "Invalid date, date >= Now")]
         public string Date { get; set; } = "";
 
         [Required]

@@ -1,5 +1,8 @@
 ﻿@model DitHub.ViewModels.ListDitViewModel
 
+@{
+    ViewData["Title"] = @Model.Title;
+}
 <h2 class="mb-3">@Model.Title</h2>
 
 <form method="post" asp-action="Search" asp-controller="Dits">
@@ -23,73 +26,31 @@
                 <div class="downN">@item.Date.ToString("dd")</div>
             </div>
             <div class="details flex-fill">
-                <span class="artist">@item.AppUser.Name</span>
+                <a asp-action="Details" asp-controller="Dits" asp-route-id="@item.Id" class="artist">
+                    @item.AppUser.Name
+                </a>
                 <span class="downD">@item.Genre.Name</span>
             </div>
             <div class="ms-auto">
                 @if (User.Identity!.IsAuthenticated)
                 {
-                    <button data-Feeid="@item.AppUserId" class="A btn btn-sm p-1">+ Fave Artist?</button>
+                    <button data-Feeid="@item.AppUserId" class="A btn btn-sm p-1">
+                        @*@(Model.FolloweeL!.Contains(item.AppUserId) ? "disabled":"")">*@
+                        @(Model.FolloweeL!.Contains(item.AppUserId) ? "A Is + Fave.":"+ Fave Artist?")
+                    </button>
+                    if (Model.Title == "Home Dittes")
+                    {
+                        <button data-ditid="@item.Id" class="D btn btn-sm p-1">
+                            @*@(Model.FaveDits!.Contains(item.Id) ? "disabled":"")">*@
+                            @(Model.FaveDits!.Contains(item.Id) ? "D Is + Fave.":"+ Fave Ditty?")
+                        </button>
+                    }
                     if (item.RemoveFlag)
                     {
                         <span class="badge bg-warning text-dark p-2">Removed</span>
-                    }
-                    else
-                    {
-                        <button data-ditid="@item.Id" class="D btn btn-sm p-1">+ Fave Ditty?</button>
                     }
                 }
             </div>
         </li>
     }
 </ul>
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $(".D").click(function (e) {
-                var butten = $(e.target);
-                var v = { Ditid: parseInt(butten.attr('data-ditid')) }
-                $.post({
-                    url: '/api/favedit',
-                    data: JSON.stringify(v),
-                    contentType: 'application/json'
-                })
-                    .done(function () {
-                        butten
-                            .css("box-shadow", "0.5rem 0.5rem #ccc, -0.5rem -0.5rem #f93636")
-                            .text('Added')
-                        alert('Request done!');
-                    })
-                    .fail(function (jqxhr, settings, ex) {
-                        alert('failed, ' + ex + jqxhr.responseText);
-                    })
-
-            })
-
-            $(".A").click(function (e) {
-                var butten = $(e.target);
-                var v = { FeeId: butten.attr('data-Feeid') }
-                $.post({
-                    url: '/api/followings',
-                    data: JSON.stringify(v),
-                    contentType: 'application/json',
-                    dataType: 'json'
-                })
-                    .done(function () {
-                        butten
-                            .css("box-shadow", "0.5rem 0.5rem #ccc, -0.5rem -0.5rem #f93636")
-                            .text('followed')
-                        alert('Request done!');
-                    })
-                    .fail(function (jqxhr, settings, ex) {
-                        butten
-                            .css("box-shadow", "0.5rem 0.5rem #f93636, -0.5rem -0.5rem #ccc")
-                            .text('failed')
-                        alert('failed, ' + ex + jqxhr.responseText);
-                    })
-
-            })
-        })
-
-    </script>
-}

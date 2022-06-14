@@ -9,11 +9,8 @@ using System.Linq;
 
 namespace DitHub.API
 {
-    //[Produces("application/json")]
-    //[Consumes("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class FaveDitController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
@@ -33,7 +30,6 @@ namespace DitHub.API
         [HttpPost]
         [Authorize]
         [IgnoreAntiforgeryToken]
-        //[Consumes("application/json")]
         public IActionResult Post([FromBody] FDTO ditdto)
         {
             var userId = userManager.GetUserId(User);
@@ -46,9 +42,29 @@ namespace DitHub.API
 
             dbContext.FaveDits.Add(Fave);
             dbContext.SaveChanges();
-            //return Ok();
 
             return Ok(JsonConvert.SerializeObject(Fave));
+        }
+
+        [HttpDelete]
+        [Authorize]
+        [IgnoreAntiforgeryToken]
+        public IActionResult Delete([FromBody] FDTO ditdto)
+        {
+            var userId = userManager.GetUserId(User);
+            var favedit = dbContext.FaveDits.FirstOrDefault(f => f.AppUserId == userId && f.DitId == ditdto.Ditid);
+            if (favedit != null)
+            {
+                dbContext.FaveDits.Remove(favedit);
+                dbContext.SaveChanges();
+                //return Ok();
+                return Ok(null);
+            }
+            else
+            {
+                return NotFound("Oops ..");
+            }
+
         }
     }
 }

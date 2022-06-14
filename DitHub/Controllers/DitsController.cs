@@ -44,8 +44,20 @@ namespace DitHub.Controllers
                 .Include(d => d.Genre)
                 .ToList();
 
-            ViewData["Title"] = "My Fave Dittes";
-            return View("ListDit", list);
+            var followeeL = dbContext.Followings
+                .Where(f => f.FollowerId == userManager.GetUserId(User))
+                .ToList()
+                .ToLookup(f => f.FolloweeId);
+            var model = new ListDitViewModel()
+            {
+                Dits = list,
+                Title = "My Fave Dittes",
+                SearchTerm = string.Empty,
+                FaveDits = null,
+                FolloweeL = followeeL,
+            };
+
+            return View("ListDit", model);
 
         }
         [Authorize]
@@ -121,6 +133,25 @@ namespace DitHub.Controllers
         public IActionResult Search(ListDitViewModel viewModel)
         {
             return RedirectToAction("Index", "Home", new { query = viewModel.SearchTerm });
+        }
+
+        public IActionResult Details(int id)
+        {
+            var dit = dbContext.Dits.FirstOrDefault(d => d.Id == id);
+
+            var details = new DetailsViewModel()
+            {
+                Dit = dit!,
+            };
+
+            var userId = userManager.GetUserId(User);
+            if (User.Identity!.IsAuthenticated)
+            {
+                details.Following = dbContext.Followings
+                    .Any(f => f.FolloweeId == dit!.AppUserId && f.FollowerId == userId);
+                details.Infave = dbContext.FaveDits.Any(f => f.DitId == dit!.Id && f.AppUserId == userId);
+            }
+            return View(details);
         }
     }
 }
