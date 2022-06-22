@@ -35,13 +35,11 @@
                 @if (User.Identity!.IsAuthenticated)
                 {
                     <button data-Feeid="@item.AppUserId" class="A btn btn-sm p-1">
-                        @*@(Model.FolloweeL!.Contains(item.AppUserId) ? "disabled":"")">*@
                         @(Model.FolloweeL!.Contains(item.AppUserId) ? "A Is + Fave.":"+ Fave Artist?")
                     </button>
                     if (Model.Title == "Home Dittes")
                     {
                         <button data-ditid="@item.Id" class="D btn btn-sm p-1">
-                            @*@(Model.FaveDits!.Contains(item.Id) ? "disabled":"")">*@
                             @(Model.FaveDits!.Contains(item.Id) ? "D Is + Fave.":"+ Fave Ditty?")
                         </button>
                     }
@@ -49,8 +47,22 @@
                     {
                         <span class="badge bg-warning text-dark p-2">Removed</span>
                     }
+                    else
+                    {
+                        <span class="badge bg-info text-dark p-2">Active</span>
+
+                    }
                 }
             </div>
         </li>
     }
 </ul>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            DitController.val(".listDA");
+            FollowController.val(".listDA")
+        })
+    </script>
+}

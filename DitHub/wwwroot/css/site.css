@@ -204,6 +204,9 @@ button.create {
     align-items: center;
     justify-content: center;
 }
+    .ms-auto > span.badge {
+        width: 71.05px;
+    }
 
 /*.mt {
     --bs-table-bg: darksalmon;

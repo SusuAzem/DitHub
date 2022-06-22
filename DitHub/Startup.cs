@@ -30,6 +30,7 @@ namespace DitHub
                 .UseLazyLoadingProxies());
             services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.ConfigureApplicationCookie(op=>op.ExpireTimeSpan= System.TimeSpan.FromDays(1));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllersWithViews(options =>
             {

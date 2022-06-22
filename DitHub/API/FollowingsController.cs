@@ -48,5 +48,25 @@ namespace DitHub.API
 
             return Ok(JsonConvert.SerializeObject(following));
         }
+
+        [HttpDelete]
+        [Authorize]
+        [IgnoreAntiforgeryToken]
+        public IActionResult Delete([FromBody] FollowDTO dTO)
+        {
+            string userId = userManager.GetUserId(User);
+            var following = context.Followings.FirstOrDefault(f => f.FollowerId == userId && f.FolloweeId == dTO.FeeId);
+            if (following != null)
+            {
+                context.Followings.Remove(following);
+                context.SaveChanges();
+                return Ok(null);
+            }
+            else
+            {
+                return NotFound("Oops .. ");
+            }
+        }
+
     }
 }
