@@ -13,12 +13,12 @@ namespace DitHub.Models
         public Dit()
         {
         }
-        public Dit(string id, DateTime dateTime, byte genre, string venue)
+        public Dit(string id, CreateViewModel viewModel)
         {
             AppUserId = id;
-            Date = dateTime;
-            GenreId = genre;
-            Venue = venue;
+            Date = viewModel.GetDateTime();
+            GenreId = viewModel.Genre;
+            Venue = viewModel.Venue;
         }
 
         public int Id { get; private set; }
@@ -69,6 +69,8 @@ namespace DitHub.Models
             {
                 changed = "both";
             }
+            // this param contains the old values of Date & Venue, but they are spesified here to assign them
+            // in the notification oblect
             notifi = Notification.DitUpdated(this, Date, Venue, changed);
             Date = viewModel.GetDateTime();
             Venue = viewModel.Venue;

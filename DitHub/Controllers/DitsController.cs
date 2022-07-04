@@ -1,10 +1,10 @@
 ﻿using DitHub.Data;
 using DitHub.Models;
+using DitHub.Repositories;
 using DitHub.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace DitHub.Controllers
@@ -14,60 +14,45 @@ namespace DitHub.Controllers
     {
         private readonly ApplicationDbContext dbContext;
         private readonly UserManager<AppUser> userManager;
+        private readonly UnitOfWork unit;
 
-        public DitsController(ApplicationDbContext dbContext, UserManager<AppUser> userManager)
+        public DitsController(ApplicationDbContext dbContext, UserManager<AppUser> userManager, UnitOfWork unit)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
+            this.unit = unit;
         }
 
         [Authorize]
         public IActionResult ArtistDits()
         {
-            var list = dbContext.Dits
-                .Where(d => d.AppUserId == userManager.GetUserId(User))
-                .Include(d => d.Genre)
-                .ToList();
-
+            var list = unit.Dits.GetDitWithGenra(userManager.GetUserId(User));
             ViewData["Title"] = "My Dittes";
             return View(list);
-
         }
 
         [Authorize]
         public IActionResult ListFaveDit()
         {
-
-            var list = dbContext.Dits
-                .Where(d => d.FaveDits!.Where(f => f.AppUserId == userManager.GetUserId(User)).Any())
-                .Include(d => d.AppUser)
-                .Include(d => d.Genre)
-                .ToList();
-
-            var followeeL = dbContext.Followings
-                .Where(f => f.FollowerId == userManager.GetUserId(User))
-                .ToList()
-                .ToLookup(f => f.FolloweeId);
+            // FaveDits lookup is null because this action is for the user fave dits
+            var id = userManager.GetUserId(User);
             var model = new ListDitViewModel()
             {
-                Dits = list,
+                Dits = unit.Dits.GetUserFave(id).ToList(),
                 Title = "My Fave Dittes",
                 SearchTerm = string.Empty,
                 FaveDits = null,
-                FolloweeL = followeeL,
+                FolloweeL = unit.Followings.GetUserFollowee(id).ToLookup(f => f.FolloweeId),
             };
-
             return View("ListDit", model);
 
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
-            var viewmodel = new CreateViewModel()
-            {
-                Genres = dbContext.Genres.ToList()
-            };
+            var viewmodel = new CreateViewModel(unit.Genres.GetGenres());
             ViewData["Title"] = "Add a Ditte";
             ViewData["Action"] = nameof(Create);
             return View("DitForm", viewmodel);
@@ -79,13 +64,13 @@ namespace DitHub.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Genres = dbContext.Genres.ToList();
+                viewModel.Genres = unit.Genres.GetGenres();
                 return View("DitForm", viewModel);
             }
-            var dit = new Dit(userManager.GetUserId(User), viewModel.GetDateTime(), viewModel.Genre, viewModel.Venue);
+            var dit = new Dit(userManager.GetUserId(User), viewModel);
 
-            dbContext.Add(dit);
-            dbContext.SaveChanges();
+            unit.Dits.Add(dit);
+            unit.Complete();
             return RedirectToAction("ArtistDits");
         }
 
@@ -94,20 +79,25 @@ namespace DitHub.Controllers
         public IActionResult Edit(int id)
         {
             // check the user id before editing the dit
-            var dit = dbContext.Dits.FirstOrDefault(d => d.Id == id && d.AppUserId == userManager.GetUserId(User));
-
-            var viewmodel = new CreateViewModel()
+            var user = userManager.GetUserId(User);
+            var dit = unit.Dits.GetDit(id);
+            if (dit == null)
             {
-                Genres = dbContext.Genres.ToList(),
+                return NotFound();
+            }
+            if (dit.AppUserId != user)
+            {
+                return new UnauthorizedResult();
+            }
+            var viewmodel = new CreateViewModel(unit.Genres.GetGenres())
+            {
                 Venue = dit!.Venue,
                 Date = dit!.Date.ToString("dd MMM yyyy"),
                 Time = dit!.Date.ToString("HH:mm"),
                 Genre = dit!.GenreId
             };
-
             ViewData["Title"] = "Edit a Ditte";
             ViewData["Action"] = nameof(Edit);
-
             return View("DitForm", viewmodel);
         }
 
@@ -117,18 +107,23 @@ namespace DitHub.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Genres = dbContext.Genres.ToList();
+                viewModel.Genres = unit.Genres.GetGenres();
                 return View("DitForm", viewModel);
             }
-            var dit = dbContext.Dits
-                .Include(d => d.FaveDits)
-                .FirstOrDefault(d => d.Id == viewModel.Id && d.AppUserId == userManager.GetUserId(User));
-
+            var dit = unit.Dits.GetDitWithFaves(viewModel.Id);
+            if (dit == null)
+            {
+                return NotFound();
+            }
+            if (dit.AppUserId != userManager.GetUserId(User))
+            {
+                return new UnauthorizedResult();
+            }
             dit!.Update(viewModel);
-
-            dbContext.SaveChanges();
+            unit.Complete();
             return RedirectToAction("ArtistDits");
         }
+
         [HttpPost]
         public IActionResult Search(ListDitViewModel viewModel)
         {
@@ -137,19 +132,20 @@ namespace DitHub.Controllers
 
         public IActionResult Details(int id)
         {
-            var dit = dbContext.Dits.FirstOrDefault(d => d.Id == id);
-
+            var dit = unit.Dits.GetDit(id);
+            if (dit == null)
+            {
+                return NotFound();
+            }
             var details = new DetailsViewModel()
             {
                 Dit = dit!,
             };
-
             var userId = userManager.GetUserId(User);
             if (User.Identity!.IsAuthenticated)
             {
-                details.Following = dbContext.Followings
-                    .Any(f => f.FolloweeId == dit!.AppUserId && f.FollowerId == userId);
-                details.Infave = dbContext.FaveDits.Any(f => f.DitId == dit!.Id && f.AppUserId == userId);
+                details.Following = unit.Followings.IsInFaveA(dit.AppUserId, userId);
+                details.Infave = unit.Favedits.IsInFaveD(dit.Id, userId);
             }
             return View(details);
         }
