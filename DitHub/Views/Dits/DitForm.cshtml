@@ -1,11 +1,11 @@
-﻿@model DitHub.ViewModels.CreateViewModel
+﻿@model CreateViewModel
 @{
-    ViewBag.Title = @ViewData["Title"];
+    ViewBag.Title = Model.Title;
     //ViewBag.Layout = "~Views/Shared/_Layout.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
+<h1>@Model.Title</h1>
 <p class="alert alert-info">All fields are <strong>Required</strong></p>
-<form method="post" asp-action="@ViewData["Action"]" asp-controller="Dits">
+<form method="post" asp-action="@Model.Action" asp-controller="Dits">
     <input type="hidden" asp-for="Id" />
 
     <div class="form-floating mb-3">

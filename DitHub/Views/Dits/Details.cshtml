@@ -1,27 +1,33 @@
-﻿@model DitHub.ViewModels.DetailsViewModel
+﻿@model DetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
+    var show = User.Identity!.IsAuthenticated;
 }
 
 <h3>
     Details Of @Model.Dit.AppUser.Name
 
-    @if (Model.Following)
+    @if (show)
     {
-        <button class="A btn btn-sm p-1" data-Feeid="@Model.Dit.AppUserId">Artist is + Fave</button>
-    }
-    else
-    {
-        <button data-Feeid="@Model.Dit.AppUserId" class="A btn btn-sm p-1">+ Fave Artist?</button>
+        <button class="A btn btn-sm p-1" data-Feeid="@Model.Dit.AppUserId">
+            @(Model.Following ? "Artist is + Fave" : "+ Fave Artist?")
+        </button>
     }
 
 </h3>
 <p class="text-black">Performing at @Model.Dit.Venue on @Model.Dit.Date.ToString("dd MMM") at @Model.Dit.Date.ToString("H:mm") </p>
-@if (Model.Infave)
-{
-    <p>You've already added this ditte to your Fave </p>
+
+@{if (show)
+    {
+        var t = Model.Infave ? "You've already added this ditte to your Fave" : "This ditte is not in your Fave";
+        <P>
+            @t
+        </P>
+    }
 }
+
+
 <div>
     <a asp-action="Index" asp-controller="Home">Back to List</a>
 </div>

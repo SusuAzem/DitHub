@@ -1,7 +1,7 @@
-﻿using DitHub.Data;
-using DitHub.Models;
-using DitHub.Repositories;
-using DitHub.ViewModels;
+﻿using DitHub.Core;
+using DitHub.Core.IRepositories;
+using DitHub.Core.Models;
+using DitHub.Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +12,11 @@ namespace DitHub.Controllers
     [AutoValidateAntiforgeryToken]
     public class DitsController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
         private readonly UserManager<AppUser> userManager;
-        private readonly UnitOfWork unit;
+        private readonly IUnitOfWork unit;
 
-        public DitsController(ApplicationDbContext dbContext, UserManager<AppUser> userManager, UnitOfWork unit)
+        public DitsController(UserManager<AppUser> userManager, IUnitOfWork unit)
         {
-            this.dbContext = dbContext;
             this.userManager = userManager;
             this.unit = unit;
         }
@@ -52,9 +50,11 @@ namespace DitHub.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var viewmodel = new CreateViewModel(unit.Genres.GetGenres());
-            ViewData["Title"] = "Add a Ditte";
-            ViewData["Action"] = nameof(Create);
+            var viewmodel = new CreateViewModel(unit.Genres.GetGenres())
+            {
+                Title = "Add a Ditte",
+                Action = nameof(Create)
+            };
             return View("DitForm", viewmodel);
         }
 
@@ -94,10 +94,10 @@ namespace DitHub.Controllers
                 Venue = dit!.Venue,
                 Date = dit!.Date.ToString("dd MMM yyyy"),
                 Time = dit!.Date.ToString("HH:mm"),
-                Genre = dit!.GenreId
+                Genre = dit!.GenreId,
+                Title = "Edit a Ditte",
+                Action = nameof(Edit)
             };
-            ViewData["Title"] = "Edit a Ditte";
-            ViewData["Action"] = nameof(Edit);
             return View("DitForm", viewmodel);
         }
 
@@ -110,12 +110,13 @@ namespace DitHub.Controllers
                 viewModel.Genres = unit.Genres.GetGenres();
                 return View("DitForm", viewModel);
             }
-            var dit = unit.Dits.GetDitWithFaves(viewModel.Id);
+            var userId = userManager.GetUserId(User);
+            var dit = unit.Dits.GetDitWithFaves(viewModel.Id, userId);
             if (dit == null)
             {
                 return NotFound();
             }
-            if (dit.AppUserId != userManager.GetUserId(User))
+            if (dit.AppUserId != userId)
             {
                 return new UnauthorizedResult();
             }
@@ -124,11 +125,6 @@ namespace DitHub.Controllers
             return RedirectToAction("ArtistDits");
         }
 
-        [HttpPost]
-        public IActionResult Search(ListDitViewModel viewModel)
-        {
-            return RedirectToAction("Index", "Home", new { query = viewModel.SearchTerm });
-        }
 
         public IActionResult Details(int id)
         {
@@ -142,7 +138,7 @@ namespace DitHub.Controllers
                 Dit = dit!,
             };
             var userId = userManager.GetUserId(User);
-            if (User.Identity!.IsAuthenticated)
+            if (userId != null)
             {
                 details.Following = unit.Followings.IsInFaveA(dit.AppUserId, userId);
                 details.Infave = unit.Favedits.IsInFaveD(dit.Id, userId);

@@ -1,10 +1,9 @@
-﻿using DitHub.Data;
-using DitHub.Models;
+﻿using DitHub.Core;
+using DitHub.Core.IRepositories;
+using DitHub.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace DitHub.API
 {
@@ -13,34 +12,35 @@ namespace DitHub.API
     [Authorize]
     public class DitsController : ControllerBase
     {
-        private readonly ApplicationDbContext dbConxet;
 
         private readonly UserManager<AppUser> userManager;
+        private readonly IUnitOfWork unit;
 
-        public DitsController(ApplicationDbContext dbConxet, UserManager<AppUser> userManager)
+        public DitsController(UserManager<AppUser> userManager, IUnitOfWork unit)
         {
-            this.dbConxet = dbConxet;
             this.userManager = userManager;
+            this.unit = unit;
         }
 
         [IgnoreAntiforgeryToken]
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var user = userManager.GetUserId(User);
-            var dit = dbConxet.Dits
-                //.Include(d=>d.FaveDits!.Where(f=>f.DitId==id).Select(f => f.AppUser))
-                .Include(d => d.FaveDits)
-                .FirstOrDefault(d => d.Id == id && d.AppUserId == user);
+            var dit = unit.Dits.GetDitWithFaves(id, user);
 
-            if (dit!.RemoveFlag)
+            if (dit!.RemoveFlag || dit == null)
             {
                 return NotFound();
             }
-
+            if (dit.AppUserId != user)
+            {
+                return new UnauthorizedResult();
+            }
             dit!.Remove();
 
-            dbConxet.SaveChanges();
+            unit.Complete();
             return Ok();
         }
     }

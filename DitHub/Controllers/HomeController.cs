@@ -1,11 +1,10 @@
-﻿using DitHub.Data;
-using DitHub.Models;
-using DitHub.Repositories;
-using DitHub.ViewModels;
+﻿using DitHub.Core;
+using DitHub.Core.IRepositories;
+using DitHub.Core.Models;
+using DitHub.Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -14,24 +13,20 @@ namespace DitHub.Controllers
     public class HomeController : Controller
     {
         //private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext dbContext;
         private readonly UserManager<AppUser> userManager;
-        private readonly FollowingR followingR;
-        private readonly DitR ditR;
+        private readonly IUnitOfWork unit;
 
-        public HomeController(ApplicationDbContext dbContext, UserManager<AppUser> userManager)
+        public HomeController(UserManager<AppUser> userManager, IUnitOfWork unit)
         {
             //_logger = logger;
-            this.dbContext = dbContext;
             this.userManager = userManager;
-            this.ditR = new DitR(dbContext);
-            this.followingR = new FollowingR(dbContext);
+            this.unit = unit;
         }
 
         public IActionResult Index(string? query = null)
         {
             string Id = userManager.GetUserId(User);
-            var UpcomingDits = ditR.GetUserFave();
+            var UpcomingDits = unit.Dits.GetDits();
             //.Where(d => d.Date > DateTime.Parse("1/1/2021") && !d.RemoveFlag);
             if (!String.IsNullOrWhiteSpace(query))
             {
@@ -42,19 +37,19 @@ namespace DitHub.Controllers
             }
             var model = new ListDitViewModel()
             {
-                Dits = UpcomingDits,
+                Dits = UpcomingDits.ToList(),
                 Title = "Home Dittes",
                 SearchTerm = query,
-                FaveDits = UserFaveD(Id).ToLookup(f => f.DitId),
-                FolloweeL = followingR.GetUserFollowee(Id).ToLookup(f => f.FolloweeId),
+                FaveDits = Id == null ? null : unit.Favedits.UserFaveD(Id).ToLookup(f => f.DitId),
+                FolloweeL = Id == null ? null : unit.Followings.GetUserFollowee(Id).ToLookup(f => f.FolloweeId),
             };
             return View("ListDit", model);
         }
-        private List<FaveDit> UserFaveD(string user)
+
+        [HttpPost]
+        public IActionResult Search(ListDitViewModel viewModel)
         {
-            return dbContext.FaveDits
-                            .Where(f => f.AppUserId == user)
-                            .ToList();
+            return RedirectToAction("Index", "Home", new { query = viewModel.SearchTerm });
         }
 
         public IActionResult Privacy()

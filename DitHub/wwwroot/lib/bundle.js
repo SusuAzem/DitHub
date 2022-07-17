@@ -7813,7 +7813,6 @@ var FollowService = function () {
 }();
 var FollowController = function (followService) {
     var button;
-    var list = [];
     var init = function (container) {
         $(container).on("click", ".A", Aevent);
         //    $("listDA").on("click", ".A", Aevent)

@@ -1,11 +1,11 @@
-﻿using DitHub.Data;
-using DitHub.DTO;
-using DitHub.Models;
+﻿using DitHub.Core;
+using DitHub.Core.DTO;
+using DitHub.Core.IRepositories;
+using DitHub.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace DitHub.API
 {
@@ -13,12 +13,12 @@ namespace DitHub.API
     [ApiController]
     public class FaveDitController : ControllerBase
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IUnitOfWork unit;
         private readonly UserManager<AppUser> userManager;
 
-        public FaveDitController(ApplicationDbContext dbContext, UserManager<AppUser> userManager)
+        public FaveDitController(IUnitOfWork unit, UserManager<AppUser> userManager)
         {
-            this.dbContext = dbContext;
+            this.unit = unit;
             this.userManager = userManager;
         }
         [HttpGet("")]
@@ -33,15 +33,14 @@ namespace DitHub.API
         public IActionResult Post([FromBody] FDTO ditdto)
         {
             var userId = userManager.GetUserId(User);
-            if (dbContext.FaveDits.Any(f => f.AppUserId == userId && f.DitId == ditdto.Ditid))
+            if (unit.Favedits.IsInFaveD(ditdto.Ditid, userId))
             {
                 return BadRequest(" you liked this ditty already");
             }
 
             var Fave = new FaveDit(userId, ditdto.Ditid);
-
-            dbContext.FaveDits.Add(Fave);
-            dbContext.SaveChanges();
+            unit.Favedits.AddFavedit(Fave);
+            unit.Complete();
 
             return Ok(JsonConvert.SerializeObject(Fave));
         }
@@ -52,19 +51,22 @@ namespace DitHub.API
         public IActionResult Delete([FromBody] FDTO ditdto)
         {
             var userId = userManager.GetUserId(User);
-            var favedit = dbContext.FaveDits.FirstOrDefault(f => f.AppUserId == userId && f.DitId == ditdto.Ditid);
+            var favedit = unit.Favedits.GetFaveDit(ditdto.Ditid, userId);
             if (favedit != null)
             {
-                dbContext.FaveDits.Remove(favedit);
-                dbContext.SaveChanges();
+                unit.Favedits.Remove(favedit);
+                unit.Complete();
                 //return Ok();
                 return Ok(null);
+            }
+            if (favedit!.AppUserId != userId)
+            {
+                return new UnauthorizedResult();
             }
             else
             {
                 return NotFound("Oops ..");
             }
-
         }
     }
 }

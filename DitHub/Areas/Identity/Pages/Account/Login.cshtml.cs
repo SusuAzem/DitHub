@@ -1,5 +1,5 @@
 ﻿#nullable disable
-using DitHub.Models;
+using DitHub.Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

@@ -1,11 +1,11 @@
-﻿@model DitHub.ViewModels.ListDitViewModel
+﻿@model ListDitViewModel
 
 @{
     ViewData["Title"] = @Model.Title;
 }
 <h2 class="mb-3">@Model.Title</h2>
 
-<form method="post" asp-action="Search" asp-controller="Dits">
+<form method="post" asp-action="Search" asp-controller="Home">
     <div class="input-group mb-3">
         <div id="searchdiv" class="form-floating" tabindex="0">
             <input type="text" class="form-control" aria-label="Seaech Dittes"

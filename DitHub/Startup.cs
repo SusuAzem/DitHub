@@ -1,5 +1,7 @@
-using DitHub.Data;
-using DitHub.Models;
+using DitHub.Core;
+using DitHub.Core.Models;
+using DitHub.Persistence;
+using DitHub.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +26,7 @@ namespace DitHub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(b => b
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -44,6 +47,7 @@ namespace DitHub
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            services.AddApplicationInsightsTelemetry();
             //services.AddAntiforgery(options =>
             //{
             //    options.HeaderName = "X-XSRF-TOKEN";

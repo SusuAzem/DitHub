@@ -8,7 +8,7 @@ namespace DitHub.API
     [ApiController]
     public class AntiForgeryController : ControllerBase
     {
-        private IAntiforgery _antiForgery;
+        private readonly IAntiforgery _antiForgery;
         public AntiForgeryController(IAntiforgery antiForgery)
         {
             _antiForgery = antiForgery;
