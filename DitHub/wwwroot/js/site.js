@@ -1,7 +1,7 @@
 ﻿var DitService = function () {
     var createFDit = function (v, d, f) {
         $.post({
-            url: '/api/favedit',
+            url: '/api/favedits',
             data: JSON.stringify(v),
             contentType: 'application/json',
         })
@@ -11,7 +11,7 @@
 
     var deleteFDit = function (v, d, f) {
         $.ajax({
-            url: "/api/favedit",
+            url: "/api/favedits",
             data: JSON.stringify(v),
             method: "DELETE",
             contentType: 'application/json',
@@ -125,7 +125,6 @@ var FollowController = function (followService) {
             if (t != "Failed") {
                 $("[data-Feeid=" + id + "]").each(function () {
                     $(this).text(text);
-                    console.log($(this).text());
                 });
             }
         }, 2000);

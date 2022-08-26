@@ -21,7 +21,7 @@ namespace DitHub.Persistence.EntityConfigurations
             builder.HasMany(g => g.Dits)
                    .WithOne(d => d.Genre)
                    .HasForeignKey(d => d.GenreId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.ClientNoAction);
         }
     }
 }

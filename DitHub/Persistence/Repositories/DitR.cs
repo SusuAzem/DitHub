@@ -1,6 +1,7 @@
 ﻿using DitHub.Core.IRepositories;
 using DitHub.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,9 +9,9 @@ namespace DitHub.Persistence.Repositories
 {
     public class DitR : IDitR
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IApplicationDbContext dbContext;
 
-        public DitR(ApplicationDbContext dbContext)
+        public DitR(IApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -18,6 +19,7 @@ namespace DitHub.Persistence.Repositories
         public IQueryable<Dit> GetDits()
         {
             return dbContext.Dits
+                            .Where(d => d.Date > DateTime.Parse("1/1/2020") && !d.RemoveFlag)
                             .Include(d => d.AppUser)
                             .Include(d => d.Genre);
 
@@ -25,17 +27,24 @@ namespace DitHub.Persistence.Repositories
         public IQueryable<Dit> GetUserFave(string id)
         {
             return dbContext.Dits
-                            .Where(d => (d.FaveDits!).Any(f => f.AppUserId == id))
+                            .Where(d => (d.FaveDits!).Any(f => f.AppUserId == id) && d.RemoveFlag == false)
                             .Include(d => d.AppUser)
                             .Include(d => d.Genre);
 
         }
 
-        public Dit? GetDitWithFaves(int id, string userId)
+        //public Dit? GetDitWithFaves(int id, string userId)
+        //{
+        //    return dbContext.Dits
+        //        .Include(d => d.FaveDits!)
+        //        .FirstOrDefault(d => d.Id == id && d.AppUserId == userId);
+        //}
+
+        public Dit? GetDitWithFaves(int id)
         {
             return dbContext.Dits
                 .Include(d => d.FaveDits!)
-                .FirstOrDefault(d => d.Id == id && d.AppUserId == userId);
+                .FirstOrDefault(d => d.Id == id);
         }
 
         public IEnumerable<Dit> GetDitWithGenra(string id)

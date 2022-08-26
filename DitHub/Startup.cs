@@ -1,4 +1,5 @@
 using DitHub.Core;
+using DitHub.Core.IRepositories;
 using DitHub.Core.Models;
 using DitHub.Persistence;
 using DitHub.Persistence.Repositories;
@@ -47,7 +48,6 @@ namespace DitHub
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
-            services.AddApplicationInsightsTelemetry();
             //services.AddAntiforgery(options =>
             //{
             //    options.HeaderName = "X-XSRF-TOKEN";

@@ -1,5 +1,4 @@
-﻿using DitHub.Core;
-using DitHub.Core.IRepositories;
+﻿using DitHub.Core.IRepositories;
 using DitHub.Core.Models;
 using DitHub.Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -26,8 +25,9 @@ namespace DitHub.Controllers
         public IActionResult Index(string? query = null)
         {
             string Id = userManager.GetUserId(User);
+
             var UpcomingDits = unit.Dits.GetDits();
-            //.Where(d => d.Date > DateTime.Parse("1/1/2021") && !d.RemoveFlag);
+
             if (!String.IsNullOrWhiteSpace(query))
             {
                 UpcomingDits = UpcomingDits.Where(d =>

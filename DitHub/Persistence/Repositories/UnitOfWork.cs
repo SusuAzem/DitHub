@@ -1,5 +1,4 @@
-﻿using DitHub.Core;
-using DitHub.Core.IRepositories;
+﻿using DitHub.Core.IRepositories;
 
 namespace DitHub.Persistence.Repositories
 {
@@ -12,7 +11,8 @@ namespace DitHub.Persistence.Repositories
         public IDitR Dits { get; private set; }
         public IGenreR Genres { get; private set; }
         public IUserR Users { get; private set; }
-
+        public INotificationR Notifications { get; private set; }
+        public IUserNotificationR UserNotifications { get; private set; }
 
         public UnitOfWork(ApplicationDbContext dbContext)
         {
@@ -22,6 +22,8 @@ namespace DitHub.Persistence.Repositories
             Dits = new DitR(dbContext);
             Genres = new GenreR(dbContext);
             Users = new UserR(dbContext);
+            Notifications = new NotificationR(dbContext);
+            UserNotifications = new UserNotificationR(dbContext);
         }
 
         public void Complete()

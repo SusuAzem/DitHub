@@ -18,5 +18,10 @@
         public virtual AppUser AppUser { get; private set; } = null!;
 
         public string AppUserId { get; private set; } = null!;
+
+        public void AppUserSet(AppUser user)
+        {
+            AppUser = user;
+        }
     }
 }

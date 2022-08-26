@@ -1,5 +1,4 @@
-﻿using DitHub.Core;
-using DitHub.Core.IRepositories;
+﻿using DitHub.Core.IRepositories;
 using DitHub.Core.Models;
 using DitHub.Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +20,7 @@ namespace DitHub.Controllers
             this.unit = unit;
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult ArtistDits()
         {
             var list = unit.Dits.GetDitWithGenra(userManager.GetUserId(User));
@@ -111,7 +110,8 @@ namespace DitHub.Controllers
                 return View("DitForm", viewModel);
             }
             var userId = userManager.GetUserId(User);
-            var dit = unit.Dits.GetDitWithFaves(viewModel.Id, userId);
+            //var dit = unit.Dits.GetDitWithFaves(viewModel.Id, userId);
+            var dit = unit.Dits.GetDitWithFaves(viewModel.Id);
             if (dit == null)
             {
                 return NotFound();

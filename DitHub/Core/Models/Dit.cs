@@ -10,28 +10,37 @@ namespace DitHub.Core.Models
     {
         public Dit()
         {
+            FaveDits = new List<FaveDit>();
         }
+
+        public Dit(string userid)
+        {
+            AppUserId = userid;
+            FaveDits = new List<FaveDit>();
+        }
+
         public Dit(string id, CreateViewModel viewModel)
         {
             AppUserId = id;
             Date = viewModel.GetDateTime();
             GenreId = viewModel.Genre;
             Venue = viewModel.Venue;
+            FaveDits = new List<FaveDit>();
         }
 
-        public int Id { get; private set; }
+        public virtual int Id { get; private set; }
         public virtual AppUser AppUser { get; private set; } = null!;
-        public string AppUserId { get; private set; } = null!;
+        public virtual string AppUserId { get; private set; } = null!;
         public DateTime Date { get; set; }
         public string Venue { get; set; } = "";
         public virtual Genre Genre { get; set; } = null!;
         public byte GenreId { get; set; }
         [JsonIgnore]
         public virtual ICollection<FaveDit>? FaveDits { get; private set; }
-        public bool RemoveFlag { get; private set; }
+        public bool RemoveFlag { get; private set; } = false;
         [JsonIgnore]
         public virtual ICollection<Notification>? Notifications { get; private set; }
-        internal void Remove()
+        public void Remove()
         {
             RemoveFlag = true;
 

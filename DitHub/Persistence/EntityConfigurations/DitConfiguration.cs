@@ -13,7 +13,7 @@ namespace DitHub.Persistence.EntityConfigurations
             builder.Property(d => d.AppUserId).IsRequired();
             builder.Property(d => d.Date).IsRequired();
             builder.Property(d => d.Venue).IsRequired().HasMaxLength(255);
-            builder.Property(d => d.GenreId).IsRequired();
+            builder.Property(d => d.GenreId).IsRequired().HasDefaultValue(1);
 
             builder.HasMany(d => d.Notifications)
                 .WithOne(n => n.Dit)

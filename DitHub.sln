@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DitHub", "DitHub\DitHub.csproj", "{49F072EF-6C9B-4CFB-BE41-CA8B0971261C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DitHub", "DitHub\DitHub.csproj", "{49F072EF-6C9B-4CFB-BE41-CA8B0971261C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DitHub.Test", "DitHub.Test\DitHub.Test.csproj", "{16064871-75D2-4856-BF7A-409F969C72F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "IntegrationTest\IntegrationTest.csproj", "{78E1DB46-24FF-4278-A6AB-3C944501A1D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{49F072EF-6C9B-4CFB-BE41-CA8B0971261C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49F072EF-6C9B-4CFB-BE41-CA8B0971261C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49F072EF-6C9B-4CFB-BE41-CA8B0971261C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16064871-75D2-4856-BF7A-409F969C72F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16064871-75D2-4856-BF7A-409F969C72F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16064871-75D2-4856-BF7A-409F969C72F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16064871-75D2-4856-BF7A-409F969C72F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E1DB46-24FF-4278-A6AB-3C944501A1D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E1DB46-24FF-4278-A6AB-3C944501A1D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E1DB46-24FF-4278-A6AB-3C944501A1D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E1DB46-24FF-4278-A6AB-3C944501A1D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

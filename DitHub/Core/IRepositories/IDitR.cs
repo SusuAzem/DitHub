@@ -9,7 +9,9 @@ namespace DitHub.Core.IRepositories
         void Add(Dit dit);
         Dit? GetDit(int id);
         IQueryable<Dit> GetDits();
-        Dit? GetDitWithFaves(int id, string userId);
+        //Dit? GetDitWithFaves(int id, string userId);
+        Dit? GetDitWithFaves(int id);
+
         IEnumerable<Dit> GetDitWithGenra(string id);
         IQueryable<Dit> GetUserFave(string id);
     }

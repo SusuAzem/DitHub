@@ -1,5 +1,4 @@
-﻿using DitHub.Core;
-using DitHub.Core.IRepositories;
+﻿using DitHub.Core.IRepositories;
 using DitHub.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -28,9 +27,10 @@ namespace DitHub.API
         public IActionResult Delete(int id)
         {
             var user = userManager.GetUserId(User);
-            var dit = unit.Dits.GetDitWithFaves(id, user);
+            //var dit = unit.Dits.GetDitWithFaves(id, user);
+            var dit = unit.Dits.GetDitWithFaves(id);
 
-            if (dit!.RemoveFlag || dit == null)
+            if (dit == null || dit!.RemoveFlag)
             {
                 return NotFound();
             }
