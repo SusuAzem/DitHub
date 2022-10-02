@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -8,6 +9,7 @@ namespace DitHub.Core.Models
     {
         public string Name { get; set; } = null!;
         public string? Photo { get; set; }
+        public DateTime DateOfBirth { get; set; } = DateTime.Now;
         [JsonIgnore]
         public virtual ICollection<Dit>? Dits { get; private set; }
         [JsonIgnore]

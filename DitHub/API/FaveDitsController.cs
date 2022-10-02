@@ -39,7 +39,10 @@ namespace DitHub.API
             unit.Favedits.AddFavedit(Fave);
             unit.Complete();
 
-            return Ok(JsonConvert.SerializeObject(Fave));
+            return Ok(JsonConvert.SerializeObject(Fave, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
         }
 
         [HttpDelete]

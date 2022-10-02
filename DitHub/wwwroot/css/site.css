@@ -21,7 +21,7 @@ a {
     border-color: #1861ac;
 }
 
-.nav-link:focus, .nav-link:hover {
+a.nav-link:focus, a.nav-link:hover {
     background-color: #841f1f7d;
 }
 
@@ -174,7 +174,7 @@ body {
             }
 
 
-        .listDA > li button, .create, a.A, a.D, h3 > button.A {
+        .listDA > li button, .create, a.A, a.D, h3 > button.A, button.btn {
             color: black;
             background-color: #fff;
             border-color: black;
@@ -183,7 +183,7 @@ body {
         }
 
             .create:focus, .create:hover, .dits > li button:hover, .dits > li button:focus, a.A:hover, a.A:focus,
-            a.D:hover, a.D:focus {
+            a.D:hover, a.D:focus, button.btn:focus, button.btn:hover {
                 background-color: darksalmon;
                 border-color: black;
             }
@@ -286,4 +286,8 @@ a.bi {
     border-top-left-radius: 0.25rem !important;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+}
+
+#register.btn {
+    margin-top: 20px;
 }

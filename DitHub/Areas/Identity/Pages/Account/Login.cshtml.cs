@@ -17,16 +17,16 @@ namespace DitHub.Areas.Identity.Pages.Account
     [IgnoreAntiforgeryToken]
     public class LoginModel : PageModel
     {
-        //private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<AppUser> signInManager,
-            ILogger<LoginModel> logger
-            //UserManager<IdentityUser> userManager
+            ILogger<LoginModel> logger,
+            UserManager<AppUser> userManager
             )
         {
-            //_userManager = userManager;
+            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -78,13 +78,22 @@ namespace DitHub.Areas.Identity.Pages.Account
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            //var user = await _userManager.FindByEmailAsync(Input.Email);
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+
+            var confirmed = await _userManager.IsEmailConfirmedAsync(user);
+            if (!confirmed)
+            {
+                ModelState.AddModelError(string.Empty, "email confirmation error.");
+                return RedirectToPage("./RegisterConfirmation", new { email = Input.Email, returnUrl });
+            }
 
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                //The PasswordSignInAsync method will set RequiresTwoFactor property to true if the TwoFactorEnabled column
+                //for the current user is set to true, and the Succeeded property will be set to false. 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

@@ -1,13 +1,14 @@
 ﻿#nullable disable
 using DitHub.Core.Models;
+using EmailService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -65,6 +66,10 @@ namespace DitHub.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            [Required]
+            [Display(Name = "Date Of Birth")]
+            [DataType(DataType.Date)]
+            public DateTime DateOfBirth { get;  set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -79,7 +84,8 @@ namespace DitHub.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name };
+                var user = new AppUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, 
+                                                        DateOfBirth = Input.DateOfBirth, TwoFactorEnabled = true };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -91,9 +97,9 @@ namespace DitHub.Areas.Identity.Pages.Account
                                                pageHandler: null,
                                                values: new { area = "Identity", userId = user.Id, code, returnUrl },
                                                protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var message = new Message(Input.Name ,Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.", null);
+                    await _emailSender.SendEmailAsync(message);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

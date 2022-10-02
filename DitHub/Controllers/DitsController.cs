@@ -20,7 +20,7 @@ namespace DitHub.Controllers
             this.unit = unit;
         }
 
-        //[Authorize]
+        [Authorize]
         public IActionResult ArtistDits()
         {
             var list = unit.Dits.GetDitWithGenra(userManager.GetUserId(User));
@@ -45,7 +45,7 @@ namespace DitHub.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Policy= "Artist")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -57,7 +57,7 @@ namespace DitHub.Controllers
             return View("DitForm", viewmodel);
         }
 
-        [Authorize]
+        [Authorize(Policy= "Artist")]
         [HttpPost]
         public IActionResult Create(CreateViewModel viewModel)
         {

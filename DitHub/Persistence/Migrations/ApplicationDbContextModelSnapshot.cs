@@ -16,7 +16,7 @@ namespace DitHub.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.14")
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DitHub.Core.Models.AppUser", b =>
@@ -30,6 +30,9 @@ namespace DitHub.Persistence.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -109,7 +112,9 @@ namespace DitHub.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<byte>("GenreId")
-                        .HasColumnType("tinyint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)1);
 
                     b.Property<bool>("RemoveFlag")
                         .HasColumnType("bit");
@@ -371,7 +376,7 @@ namespace DitHub.Persistence.Migrations
                     b.HasOne("DitHub.Core.Models.Genre", "Genre")
                         .WithMany("Dits")
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
                     b.Navigation("AppUser");
