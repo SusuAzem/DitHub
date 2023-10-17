@@ -4,11 +4,12 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:DefaultConnection"
     },
-    "appInsights1": {
-      "type": "appInsights"
-    },
     "secrets1": {
       "type": "secrets"
+    },
+    "appInsights1": {
+      "type": "appInsights",
+      "connectionId": null
     }
   }
 }

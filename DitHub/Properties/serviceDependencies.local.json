@@ -4,11 +4,14 @@
       "type": "mssql.local",
       "connectionId": "ConnectionStrings:DefaultConnection"
     },
-    "appInsights1": {
-      "type": "appInsights.sdk"
-    },
     "secrets1": {
       "type": "secrets.user"
+    },
+    "appInsights1": {
+      "secretStore": null,
+      "resourceId": null,
+      "type": "appInsights.sdk",
+      "connectionId": null
     }
   }
 }

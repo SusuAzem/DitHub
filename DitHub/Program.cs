@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DitHub
@@ -20,7 +21,9 @@ namespace DitHub
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //add options to Kestrel to give it HTTPS certificate
                     webBuilder.UseStartup<Startup>();
+                    //.UseKestrel(op=>op.Listen(IPAddress.Loopback,8088,opt=>opt.UseHttps("","")));
                 });
     }
 }

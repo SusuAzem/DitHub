@@ -1,23 +1,20 @@
 using DitHub.Areas.Identity;
-using DitHub.Core;
 using DitHub.Core.IRepositories;
 using DitHub.Core.Models;
 using DitHub.Persistence;
 using DitHub.Persistence.Repositories;
 using EmailService;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NUglify.Helpers;
 
 namespace DitHub
 {
@@ -98,6 +95,9 @@ namespace DitHub
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
+            services.Configure<IISServerOptions>(options =>{});
+            services.Configure<IISOptions>(options =>{});
+            //services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,11 +115,17 @@ namespace DitHub
             //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //    app.UseHsts();
             //}
+
+            //The forwarded headers middleware helps ASP.NET Core application to look for headers added by an upstream proxy or
+            //load balancer if it is not IIS proxy
+            app.UseForwardedHeaders(new ForwardedHeadersOptions() 
+                { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto});
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
             app.UseAuthentication();
             app.UseAuthorization();
 
